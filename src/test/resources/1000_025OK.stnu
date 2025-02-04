@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml">
+<key id="nContingent" for="graph">
+<desc>Number of contingents in the graph</desc>
+<default>0</default>
+</key>
+<key id="NetworkType" for="graph">
+<desc>Network Type</desc>
+<default>CSTNU</default>
+</key>
+<key id="nEdges" for="graph">
+<desc>Number of edges in the graph</desc>
+<default>0</default>
+</key>
+<key id="nVertices" for="graph">
+<desc>Number of vertices in the graph</desc>
+<default>0</default>
+</key>
+<key id="Name" for="graph">
+<desc>Graph Name</desc>
+<default></default>
+</key>
+<key id="x" for="node">
+<desc>The x coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="y" for="node">
+<desc>The y coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Type" for="edge">
+<desc>Type: Possible values: contingent|requirement|derived|internal.</desc>
+<default>requirement</default>
+</key>
+<key id="Value" for="edge">
+<desc>Value for STN edge. Format: 'integer'</desc>
+<default></default>
+</key>
+<key id="LabeledValue" for="edge">
+<desc>Case Value. Format: 'LC(NodeName):integer' or 'UC(NodeName):integer'</desc>
+<default></default>
+</key>
+<graph edgedefault="directed">
+<data key="nContingent">1</data>
+<data key="NetworkType">STNU</data>
+<data key="nEdges">7</data>
+<data key="nVertices">6</data>
+<data key="Name">1000_025_1.stnu</data>
+<node id="C64">
+<data key="x">501.2085609436035</data>
+<data key="y">143.0545196533203</data>
+</node>
+<node id="N34">
+<data key="x">504.5429992675781</data>
+<data key="y">570.5874633789062</data>
+</node>
+<node id="A64">
+<data key="x">67.54631042480469</data>
+<data key="y">145.3604736328125</data>
+</node>
+<node id="X1">
+<data key="x">366.29457092285156</data>
+<data key="y">340.05810546875</data>
+</node>
+<node id="N507">
+<data key="x">791.6493988037109</data>
+<data key="y">150.03857421875</data>
+</node>
+<node id="Z">
+<data key="x">35.75328063964844</data>
+<data key="y">373.6384811401367</data>
+</node>
+<edge id="eN34-N507" source="N34" target="N507">
+<data key="Type">requirement</data>
+<data key="Value">-60</data>
+</edge>
+<edge id="eX1-C64" source="X1" target="C64">
+<data key="Type">requirement</data>
+<data key="Value">-2</data>
+</edge>
+<edge id="EA64-C64" source="A64" target="C64">
+<data key="Type">contingent</data>
+<data key="Value">17</data>
+</edge>
+<edge id="N507-C64" source="N507" target="C64">
+<data key="Type">requirement</data>
+<data key="Value">-106</data>
+</edge>
+<edge id="eN34-X1" source="N34" target="X1">
+<data key="Type">requirement</data>
+<data key="Value">4</data>
+</edge>
+<edge id="EC64-A64" source="C64" target="A64">
+<data key="Type">contingent</data>
+<data key="Value">-10</data>
+</edge>
+<edge id="C64-N507" source="C64" target="N507">
+<data key="Type">requirement</data>
+<data key="Value">106</data>
+</edge>
+</graph>
+</graphml>

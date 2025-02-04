@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml">
+<key id="nContingent" for="graph">
+<desc>Number of contingents in the graph</desc>
+<default>0</default>
+</key>
+<key id="NetworkType" for="graph">
+<desc>Network Type</desc>
+<default>CSTNU</default>
+</key>
+<key id="nEdges" for="graph">
+<desc>Number of edges in the graph</desc>
+<default>0</default>
+</key>
+<key id="nVertices" for="graph">
+<desc>Number of vertices in the graph</desc>
+<default>0</default>
+</key>
+<key id="Name" for="graph">
+<desc>Graph Name</desc>
+<default></default>
+</key>
+<key id="x" for="node">
+<desc>The x coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="y" for="node">
+<desc>The y coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Type" for="edge">
+<desc>Type: Possible values: contingent|requirement|derived|internal.</desc>
+<default>requirement</default>
+</key>
+<key id="Value" for="edge">
+<desc>Value for STN edge. Format: 'integer'</desc>
+<default></default>
+</key>
+<key id="LabeledValue" for="edge">
+<desc>Case Value. Format: 'LC(NodeName):integer' or 'UC(NodeName):integer'</desc>
+<default></default>
+</key>
+<graph edgedefault="directed">
+<data key="nContingent">2</data>
+<data key="NetworkType">STNU</data>
+<data key="nEdges">24</data>
+<data key="nVertices">13</data>
+<data key="Name">1000_004_7.stnu</data>
+<node id="N667">
+<data key="x">504.22605895996094</data>
+<data key="y">298.61480712890625</data>
+</node>
+<node id="C44">
+<data key="x">98.22605895996094</data>
+<data key="y">470.61480712890625</data>
+</node>
+<node id="N668">
+<data key="x">497.22605895996094</data>
+<data key="y">456.61480712890625</data>
+</node>
+<node id="N348">
+<data key="x">98.22605895996094</data>
+<data key="y">170.61480712890625</data>
+</node>
+<node id="C64">
+<data key="x">248.22605895996094</data>
+<data key="y">170.61480712890625</data>
+</node>
+<node id="N347">
+<data key="x">98.22605895996094</data>
+<data key="y">20.61480712890625</data>
+</node>
+<node id="N349">
+<data key="x">98.22605895996094</data>
+<data key="y">620.6148071289062</data>
+</node>
+<node id="N507">
+<data key="x">248.22605895996094</data>
+<data key="y">320.61480712890625</data>
+</node>
+<node id="N509">
+<data key="x">248.22605895996094</data>
+<data key="y">620.6148071289062</data>
+</node>
+<node id="A64">
+<data key="x">248.22605895996094</data>
+<data key="y">20.61480712890625</data>
+</node>
+<node id="N508">
+<data key="x">248.22605895996094</data>
+<data key="y">470.61480712890625</data>
+</node>
+<node id="Z">
+<data key="x">0.0</data>
+<data key="y">0.0</data>
+</node>
+<node id="A44">
+<data key="x">98.22605895996094</data>
+<data key="y">320.61480712890625</data>
+</node>
+<edge id="eN507-N668" source="N507" target="N668">
+<data key="Type">requirement</data>
+<data key="Value">-3</data>
+</edge>
+<edge id="N667-N668" source="N667" target="N668">
+<data key="Type">requirement</data>
+<data key="Value">111</data>
+</edge>
+<edge id="N348-N668" source="N348" target="N668">
+<data key="Type">requirement</data>
+<data key="Value">398</data>
+</edge>
+<edge id="N349-C44" source="N349" target="C44">
+<data key="Type">requirement</data>
+<data key="Value">-25</data>
+</edge>
+<edge id="C44-N349" source="C44" target="N349">
+<data key="Type">requirement</data>
+<data key="Value">116</data>
+</edge>
+<edge id="A44-N348" source="A44" target="N348">
+<data key="Type">requirement</data>
+<data key="Value">0</data>
+</edge>
+<edge id="N667-N508" source="N667" target="N508">
+<data key="Type">requirement</data>
+<data key="Value">229</data>
+</edge>
+<edge id="EC64-A64" source="C64" target="A64">
+<data key="Type">contingent</data>
+<data key="Value">-14</data>
+</edge>
+<edge id="N507-N347" source="N507" target="N347">
+<data key="Type">requirement</data>
+<data key="Value">385</data>
+</edge>
+<edge id="N668-N667" source="N668" target="N667">
+<data key="Type">requirement</data>
+<data key="Value">-86</data>
+</edge>
+<edge id="C64-N507" source="C64" target="N507">
+<data key="Type">requirement</data>
+<data key="Value">124</data>
+</edge>
+<edge id="N348-A44" source="N348" target="A44">
+<data key="Type">requirement</data>
+<data key="Value">142</data>
+</edge>
+<edge id="N507-N508" source="N507" target="N508">
+<data key="Type">requirement</data>
+<data key="Value">148</data>
+</edge>
+<edge id="N507-N349" source="N507" target="N349">
+<data key="Type">requirement</data>
+<data key="Value">145</data>
+</edge>
+<edge id="EA64-C64" source="A64" target="C64">
+<data key="Type">contingent</data>
+<data key="Value">16</data>
+</edge>
+<edge id="EA44-C44" source="A44" target="C44">
+<data key="Type">contingent</data>
+<data key="Value">2</data>
+</edge>
+<edge id="N507-C64" source="N507" target="C64">
+<data key="Type">requirement</data>
+<data key="Value">-71</data>
+</edge>
+<edge id="N348-N347" source="N348" target="N347">
+<data key="Type">requirement</data>
+<data key="Value">-107</data>
+</edge>
+<edge id="N509-N508" source="N509" target="N508">
+<data key="Type">requirement</data>
+<data key="Value">-7</data>
+</edge>
+<edge id="EC44-A44" source="C44" target="A44">
+<data key="Type">contingent</data>
+<data key="Value">-1</data>
+</edge>
+<edge id="N508-N509" source="N508" target="N509">
+<data key="Type">requirement</data>
+<data key="Value">124</data>
+</edge>
+<edge id="N347-N348" source="N347" target="N348">
+<data key="Type">requirement</data>
+<data key="Value">110</data>
+</edge>
+<edge id="N508-N507" source="N508" target="N507">
+<data key="Type">requirement</data>
+<data key="Value">-140</data>
+</edge>
+<edge id="N509-N668" source="N509" target="N668">
+<data key="Type">requirement</data>
+<data key="Value">341</data>
+</edge>
+</graph>
+</graphml>

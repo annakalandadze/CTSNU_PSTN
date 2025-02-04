@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"it.univr.di.cstnu.matlabplugin"}];updateSearchResults();

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="https://github.com/spotbugs/filter/4.8.4"
+		xsi:schemaLocation="https://github.com/spotbugs/filter/4.8.4 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
+	<Match>
+		<Package name="~.*\.lazy"/>
+		<!-- <Package name="~it\.univr\.di\.[.a-zA-Z0-9]*\.lazy"/> -->
+	</Match>
+	<Match>
+		<Class name="~.*?Test.*"/>
+	</Match>
+	<Match>
+		<!--suppress DeprecatedClassUsageInspection -->
+		<Class name="it.univr.di.labeledvalue.LabeledIntSimpleMap"/>
+	</Match>
+	<Match>
+		<!--	EI: For efficiency reason, it returns part of the internal structure,
+				BC: due to many unchecked cast but that are safe,
+				THROWS:	It is Callable interface that declares generic Exception possibility.
+		-->
+		<Bug code="CT,EI,BC,THROWS,STCAL,CT,DMI"/>
+	</Match>
+</FindBugsFilter>

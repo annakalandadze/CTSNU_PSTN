@@ -1,0 +1,1624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml">
+<key id="nContingent" for="graph">
+<desc>Number of contingents in the graph</desc>
+<default>0</default>
+</key>
+<key id="nObservedProposition" for="graph">
+<desc>Number of observed propositions in the graph</desc>
+<default>0</default>
+</key>
+<key id="NetworkType" for="graph">
+<desc>Network Type</desc>
+<default>CSTNU</default>
+</key>
+<key id="nEdges" for="graph">
+<desc>Number of edges in the graph</desc>
+<default>0</default>
+</key>
+<key id="nVertices" for="graph">
+<desc>Number of vertices in the graph</desc>
+<default>0</default>
+</key>
+<key id="Name" for="graph">
+<desc>Graph Name</desc>
+<default></default>
+</key>
+<key id="Obs" for="node">
+<desc>Proposition Observed. Value specification: [a-zA-F]</desc>
+<default></default>
+</key>
+<key id="x" for="node">
+<desc>The x coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Label" for="node">
+<desc>Label. Format: [¬[a-zA-F]|[a-zA-F]]+|⊡</desc>
+<default>⊡</default>
+</key>
+<key id="y" for="node">
+<desc>The y coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Potential" for="node">
+<desc>Labeled Potential Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="Type" for="edge">
+<desc>Type: Possible values: contingent|requirement|derived|internal.</desc>
+<default>requirement</default>
+</key>
+<key id="LowerCaseLabeledValues" for="edge">
+<desc>Labeled Lower-Case Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="UpperCaseLabeledValues" for="edge">
+<desc>Labeled Upper-Case Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="LabeledValues" for="edge">
+<desc>Labeled Values. Format: {[('integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<graph edgedefault="directed">
+<data key="nContingent">10</data>
+<data key="nObservedProposition">3</data>
+<data key="NetworkType">CSTNU</data>
+<data key="nEdges">126</data>
+<data key="nVertices">43</data>
+<!-- -->
+<node id="Z">
+<data key="x">1.0</data>
+<data key="Label">⊡</data>
+<data key="y">1.0</data>
+</node>
+<node id="Ω">
+<data key="x">1000.0</data>
+<data key="Label">⊡</data>
+<data key="y">1000.0</data>
+</node>
+<!-- -->
+<node id="15E">
+<data key="x">764.0</data>
+<data key="Label">⊡</data>
+<data key="y">776.0</data>
+</node>
+<node id="9E">
+<data key="x">179.0</data>
+<data key="Label">¬a</data>
+<data key="y">292.0</data>
+</node>
+<node id="6S">
+<data key="x">19.0</data>
+<data key="Label">⊡</data>
+<data key="y">154.0</data>
+</node>
+<node id="17E">
+<data key="x">644.0</data>
+<data key="Label">¬b</data>
+<data key="y">753.0</data>
+</node>
+<node id="20">
+<data key="x">422.0</data>
+<data key="Label">c</data>
+<data key="y">29.0</data>
+</node>
+<node id="141">
+<data key="x">486.0</data>
+<data key="Label">¬b</data>
+<data key="y">703.0</data>
+</node>
+<node id="7S">
+<data key="x">287.0</data>
+<data key="Label">⊡</data>
+<data key="y">314.0</data>
+</node>
+<node id="1S">
+<data key="x">775.0</data>
+<data key="Label">⊡</data>
+<data key="y">679.0</data>
+</node>
+<node id="15S">
+<data key="x">707.0</data>
+<data key="Label">⊡</data>
+<data key="y">780.0</data>
+</node>
+<node id="8E">
+<data key="x">156.0</data>
+<data key="Label">a</data>
+<data key="y">207.0</data>
+</node>
+<node id="X2E?">
+<data key="Obs">c</data>
+<data key="x">381.0</data>
+<data key="Label">⊡</data>
+<data key="y">18.0</data>
+</node>
+<node id="13E">
+<data key="x">271.0</data>
+<data key="Label">⊡</data>
+<data key="y">629.0</data>
+</node>
+<node id="3E">
+<data key="x">40.0</data>
+<data key="Label">⊡</data>
+<data key="y">46.0</data>
+</node>
+<node id="X14E?">
+<data key="Obs">b</data>
+<data key="x">505.0</data>
+<data key="Label">⊡</data>
+<data key="y">766.0</data>
+</node>
+<node id="X6E?">
+<data key="Obs">a</data>
+<data key="x">21.0</data>
+<data key="Label">⊡</data>
+<data key="y">212.0</data>
+</node>
+<node id="14S">
+<data key="x">371.0</data>
+<data key="Label">⊡</data>
+<data key="y">735.0</data>
+</node>
+<node id="p1_Z">
+<data key="x">771.0</data>
+<data key="Label">⊡</data>
+<data key="y">443.0</data>
+</node>
+<node id="2S">
+<data key="x">544.0</data>
+<data key="Label">⊡</data>
+<data key="y">47.0</data>
+</node>
+<node id="11S">
+<data key="x">783.0</data>
+<data key="Label">⊡</data>
+<data key="y">78.0</data>
+</node>
+<node id="13S">
+<data key="x">274.0</data>
+<data key="Label">⊡</data>
+<data key="y">461.0</data>
+</node>
+<node id="17S">
+<data key="x">596.0</data>
+<data key="Label">¬b</data>
+<data key="y">625.0</data>
+</node>
+<node id="12E">
+<data key="x">320.0</data>
+<data key="Label">⊡</data>
+<data key="y">260.0</data>
+</node>
+<node id="16E">
+<data key="x">591.0</data>
+<data key="Label">b</data>
+<data key="y">783.0</data>
+</node>
+<node id="4S">
+<data key="x">289.0</data>
+<data key="Label">c</data>
+<data key="y">34.0</data>
+</node>
+<node id="5E">
+<data key="x">223.0</data>
+<data key="Label">¬c</data>
+<data key="y">126.0</data>
+</node>
+<node id="7E">
+<data key="x">476.0</data>
+<data key="Label">⊡</data>
+<data key="y">362.0</data>
+</node>
+<node id="61">
+<data key="x">16.0</data>
+<data key="Label">¬a</data>
+<data key="y">272.0</data>
+</node>
+<node id="p1_Ω">
+<data key="x">766.0</data>
+<data key="Label">⊡</data>
+<data key="y">536.0</data>
+</node>
+<node id="8S">
+<data key="x">49.0</data>
+<data key="Label">a</data>
+<data key="y">135.0</data>
+</node>
+<node id="9S">
+<data key="x">100.0</data>
+<data key="Label">¬a</data>
+<data key="y">235.0</data>
+</node>
+<node id="11E">
+<data key="x">671.0</data>
+<data key="Label">⊡</data>
+<data key="y">55.0</data>
+</node>
+<node id="12S">
+<data key="x">510.0</data>
+<data key="Label">⊡</data>
+<data key="y">155.0</data>
+</node>
+<node id="0S">
+<data key="x">776.0</data>
+<data key="Label">⊡</data>
+<data key="y">360.0</data>
+</node>
+<node id="140">
+<data key="x">399.0</data>
+<data key="Label">b</data>
+<data key="y">782.0</data>
+</node>
+<node id="0E">
+<data key="x">698.0</data>
+<data key="Label">⊡</data>
+<data key="y">180.0</data>
+</node>
+<node id="16S">
+<data key="x">474.0</data>
+<data key="Label">b</data>
+<data key="y">770.0</data>
+</node>
+<node id="3S">
+<data key="x">115.0</data>
+<data key="Label">⊡</data>
+<data key="y">21.0</data>
+</node>
+<node id="10E">
+<data key="x">763.0</data>
+<data key="Label">⊡</data>
+<data key="y">250.0</data>
+</node>
+<node id="60">
+<data key="x">19.0</data>
+<data key="Label">a</data>
+<data key="y">100.0</data>
+</node>
+<node id="10S">
+<data key="x">637.0</data>
+<data key="Label">⊡</data>
+<data key="y">417.0</data>
+</node>
+<node id="4E">
+<data key="x">204.0</data>
+<data key="Label">c</data>
+<data key="y">32.0</data>
+</node>
+<node id="5S">
+<data key="x">332.0</data>
+<data key="Label">¬c</data>
+<data key="y">27.0</data>
+</node>
+<node id="21">
+<data key="x">461.0</data>
+<data key="Label">¬c</data>
+<data key="y">30.0</data>
+</node>
+
+<edge id="e126" source="16E" target="16S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(16E, -25, b) }</data>
+<data key="LabeledValues">{(-6, b) }</data>
+</edge>
+<edge id="e114" source="20" target="X2E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, c) }</data>
+</edge>
+<edge id="e113" source="X2E?" target="20">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, c) }</data>
+</edge>
+<edge id="e125" source="16S" target="16E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(16E, 8, b) }</data>
+<data key="LabeledValues">{(45, b) }</data>
+</edge>
+<edge id="e124" source="15S" target="17E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬b) }</data>
+</edge>
+<edge id="e116" source="17S" target="10S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-87, ¬b) }</data>
+</edge>
+<edge id="e91" source="8E" target="X6E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, a) }</data>
+</edge>
+<edge id="e112" source="21" target="X2E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬c) }</data>
+</edge>
+<edge id="e90" source="17S" target="X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬b) }</data>
+</edge>
+<edge id="e111" source="X2E?" target="21">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬c) }</data>
+</edge>
+<edge id="e117" source="X14E?" target="141">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬b) }</data>
+</edge>
+<edge id="e115" source="10S" target="17S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(169, ¬b) }</data>
+</edge>
+<edge id="e118" source="141" target="X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬b) }</data>
+</edge>
+<edge id="e110" source="141" target="14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬b) }</data>
+</edge>
+<edge id="e81" source="9E" target="12E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(118, ¬a) }</data>
+</edge>
+<edge id="e93" source="13E" target="14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e122" source="140" target="X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, b) }</data>
+</edge>
+<edge id="e120" source="4E" target="4S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(4E, -21, c) }</data>
+<data key="LabeledValues">{(-2, c) }</data>
+</edge>
+<edge id="e70" source="7S" target="8E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, a) }</data>
+</edge>
+<edge id="e109" source="14S" target="141">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬b) }</data>
+</edge>
+<edge id="e105" source="5E" target="3S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬c) }</data>
+</edge>
+<edge id="e107" source="14S" target="140">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, b) }</data>
+</edge>
+<edge id="e72" source="16S" target="140">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, b) }</data>
+</edge>
+<edge id="e103" source="5E" target="8E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(98, a¬c) }</data>
+</edge>
+<edge id="e101" source="2S" target="21">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬c) }</data>
+</edge>
+<edge id="e18" source="12E" target="12S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(12E, -22, ⊡) }</data>
+<data key="LabeledValues">{(-6, ⊡) }</data>
+</edge>
+<edge id="e97" source="2S" target="20">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, c) }</data>
+</edge>
+<edge id="e98" source="20" target="2S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, c) }</data>
+</edge>
+<edge id="e63" source="10S" target="10E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(10E, 5, ⊡) }</data>
+<data key="LabeledValues">{(39, ⊡) }</data>
+</edge>
+<edge id="e83" source="5E" target="X2E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬c) }</data>
+</edge>
+<edge id="e86" source="7S" target="9E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬a) }</data>
+</edge>
+<edge id="e87" source="5S" target="X2E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬c) }</data>
+</edge>
+<edge id="e38" source="7E" target="7S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e64" source="10E" target="10S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(10E, -22, ⊡) }</data>
+<data key="LabeledValues">{(-4, ⊡) }</data>
+</edge>
+<edge id="e60" source="0S" target="p1_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(970, ⊡) }</data>
+</edge>
+<edge id="e49" source="61" target="9S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬a) }</data>
+</edge>
+<edge id="e106" source="3S" target="5E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬c) }</data>
+</edge>
+<edge id="e41" source="1S" target="p1_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="e26" source="60" target="6S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, a) }</data>
+</edge>
+<edge id="e52" source="17S" target="141">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬b) }</data>
+</edge>
+<edge id="e94" source="14S" target="13E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e82" source="12E" target="9E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-43, ¬a) }</data>
+</edge>
+<edge id="e15" source="9S" target="9E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(9E, 6, ¬a) }</data>
+<data key="LabeledValues">{(48, ¬a) }</data>
+</edge>
+<edge id="e121" source="X14E?" target="140">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, b) }</data>
+</edge>
+<edge id="e19" source="17S" target="17E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(17E, 4, ¬b) }</data>
+<data key="LabeledValues">{(45, ¬b) }</data>
+</edge>
+<edge id="e71" source="140" target="16S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, b) }</data>
+</edge>
+<edge id="e1" source="5S" target="5E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(5E, 5, ¬c) }</data>
+<data key="LabeledValues">{(37, ¬c) }</data>
+</edge>
+<edge id="e22" source="0E" target="0S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e5" source="6S" target="X6E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ⊡) }</data>
+</edge>
+<edge id="e102" source="21" target="2S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬c) }</data>
+</edge>
+<edge id="e75" source="16S" target="X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, b) }</data>
+</edge>
+<edge id="e9" source="11S" target="11E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(11E, 5, ⊡) }</data>
+<data key="LabeledValues">{(52, ⊡) }</data>
+</edge>
+<edge id="e79" source="12E" target="5E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-104, ¬c) }</data>
+</edge>
+<edge id="e45" source="13S" target="13E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(13E, 12, ⊡) }</data>
+<data key="LabeledValues">{(52, ⊡) }</data>
+</edge>
+<edge id="e21" source="0S" target="0E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="e69" source="8E" target="7S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, a) }</data>
+</edge>
+<edge id="e33" source="16E" target="15S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, b) }</data>
+</edge>
+<edge id="e4" source="8E" target="8S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(8E, -24, a) }</data>
+<data key="LabeledValues">{(-11, a) }</data>
+</edge>
+<edge id="e3" source="8S" target="8E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(8E, 14, a) }</data>
+<data key="LabeledValues">{(43, a) }</data>
+</edge>
+<edge id="e68" source="4S" target="20">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, c) }</data>
+</edge>
+<edge id="e10" source="15E" target="15S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e58" source="0S" target="p1_Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e44" source="60" target="X6E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, a) }</data>
+</edge>
+<edge id="e56" source="11S" target="10E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e55" source="10E" target="11S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e57" source="p1_Z" target="0S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e35" source="2S" target="X2E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ⊡) }</data>
+</edge>
+<edge id="e11" source="11E" target="11S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(11E, -29, ⊡) }</data>
+<data key="LabeledValues">{(-4, ⊡) }</data>
+</edge>
+<edge id="e59" source="9E" target="X6E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬a) }</data>
+</edge>
+<edge id="e31" source="4E" target="3S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, c) }</data>
+</edge>
+<edge id="e66" source="16E" target="X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, b) }</data>
+</edge>
+<edge id="e67" source="20" target="4S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, c) }</data>
+</edge>
+<edge id="e36" source="X2E?" target="2S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e34" source="15S" target="16E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, b) }</data>
+</edge>
+<edge id="e32" source="3S" target="4E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, c) }</data>
+</edge>
+<edge id="e30" source="1S" target="15E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e37" source="7S" target="7E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="e8" source="X6E?" target="6S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e53" source="12E" target="13S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e65" source="9S" target="X6E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬a) }</data>
+</edge>
+<edge id="e89" source="6S" target="3E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e25" source="6S" target="60">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, a) }</data>
+</edge>
+<edge id="e12" source="14S" target="X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ⊡) }</data>
+</edge>
+<edge id="e40" source="61" target="X6E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬a) }</data>
+</edge>
+<edge id="e42" source="p1_Ω" target="1S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e14" source="15S" target="15E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="e99" source="11E" target="12S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e23" source="5E" target="9S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(104, ¬a¬c) }</data>
+</edge>
+<edge id="e27" source="6S" target="61">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬a) }</data>
+</edge>
+<edge id="e6" source="3S" target="3E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="e51" source="141" target="17S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬b) }</data>
+</edge>
+<edge id="e2" source="5E" target="5S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(5E, -21, ¬c) }</data>
+<data key="LabeledValues">{(-4, ¬c) }</data>
+</edge>
+<edge id="e46" source="13E" target="13S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(13E, -29, ⊡) }</data>
+<data key="LabeledValues">{(-9, ⊡) }</data>
+</edge>
+<edge id="e48" source="5S" target="21">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬c) }</data>
+</edge>
+<edge id="e74" source="2S" target="0E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e78" source="5E" target="12E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(180, ¬c) }</data>
+</edge>
+<edge id="e76" source="60" target="8S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, a) }</data>
+</edge>
+<edge id="e17" source="12S" target="12E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(12E, 8, ⊡) }</data>
+<data key="LabeledValues">{(39, ⊡) }</data>
+</edge>
+<edge id="e61" source="p1_Ω" target="0S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-118, ⊡) }</data>
+</edge>
+<edge id="e29" source="15E" target="1S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e73" source="0E" target="2S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e84" source="17E" target="X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬b) }</data>
+</edge>
+<edge id="e85" source="9E" target="7S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬a) }</data>
+</edge>
+<edge id="e28" source="61" target="6S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬a) }</data>
+</edge>
+<edge id="e50" source="9S" target="61">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬a) }</data>
+</edge>
+<edge id="e95" source="7E" target="10S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e96" source="10S" target="7E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e16" source="9E" target="9S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(9E, -27, ¬a) }</data>
+<data key="LabeledValues">{(-4, ¬a) }</data>
+</edge>
+<edge id="e39" source="X6E?" target="61">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬a) }</data>
+</edge>
+<edge id="e119" source="4S" target="4E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(4E, 3, c) }</data>
+<data key="LabeledValues">{(37, c) }</data>
+</edge>
+<edge id="e62" source="4E" target="X2E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, c) }</data>
+</edge>
+<edge id="e13" source="X14E?" target="14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e92" source="8S" target="X6E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, a) }</data>
+</edge>
+<edge id="e88" source="3E" target="6S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="e54" source="13S" target="12E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e123" source="17E" target="15S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬b) }</data>
+</edge>
+<edge id="e80" source="4S" target="X2E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, c) }</data>
+</edge>
+<edge id="e47" source="21" target="5S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬c) }</data>
+</edge>
+<edge id="e43" source="X6E?" target="60">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, a) }</data>
+</edge>
+<edge id="e108" source="140" target="14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, b) }</data>
+</edge>
+<edge id="e104" source="8E" target="5E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-32, a¬c) }</data>
+</edge>
+<edge id="e24" source="9S" target="5E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-35, ¬a¬c) }</data>
+</edge>
+<edge id="e7" source="3E" target="3S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e20" source="17E" target="17S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(17E, -25, ¬b) }</data>
+<data key="LabeledValues">{(-3, ¬b) }</data>
+</edge>
+<edge id="e77" source="8S" target="60">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, a) }</data>
+</edge>
+<edge id="e100" source="12S" target="11E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+
+<!--<graph edgedefault="directed">
+<data key="nContingent">10</data>
+<data key="nObservedProposition">3</data>
+<data key="NetworkType">CSTNU</data>
+<data key="nEdges">130</data>
+<data key="nVertices">43</data>
+-->
+<node id="p2_15E">
+<data key="x">734.0</data>
+<data key="Label">¬d</data>
+<data key="y">484.0</data>
+</node>
+<node id="p2_9E">
+<data key="x">173.0</data>
+<data key="Label">⊡</data>
+<data key="y">412.0</data>
+</node>
+<node id="p2_6S">
+<data key="x">151.0</data>
+<data key="Label">⊡</data>
+<data key="y">135.0</data>
+</node>
+<node id="p2_17E">
+<data key="x">560.0</data>
+<data key="Label">¬d¬e</data>
+<data key="y">456.0</data>
+</node>
+<node id="p2_10E">
+<data key="x">20.0</data>
+<data key="Label">¬f</data>
+<data key="y">241.0</data>
+</node>
+<node id="p2_141">
+<data key="x">659.0</data>
+<data key="Label">¬d¬e</data>
+<data key="y">251.0</data>
+</node>
+<node id="p2_7S">
+<data key="x">114.0</data>
+<data key="Label">⊡</data>
+<data key="y">36.0</data>
+</node>
+<node id="p2_1S">
+<data key="x">750.0</data>
+<data key="Label">⊡</data>
+<data key="y">777.0</data>
+</node>
+<node id="p2_X8E?">
+<data key="Obs">f</data>
+<data key="x">17.0</data>
+<data key="Label">⊡</data>
+<data key="y">145.0</data>
+</node>
+<node id="p2_9S">
+<data key="x">26.0</data>
+<data key="Label">⊡</data>
+<data key="y">327.0</data>
+</node>
+<node id="p2_3S">
+<data key="x">128.0</data>
+<data key="Label">⊡</data>
+<data key="y">775.0</data>
+</node>
+<node id="p2_111">
+<data key="x">452.0</data>
+<data key="Label">¬d</data>
+<data key="y">369.0</data>
+</node>
+<node id="p2_3E">
+<data key="x">31.0</data>
+<data key="Label">⊡</data>
+<data key="y">778.0</data>
+</node>
+<node id="p2_X14E?">
+<data key="Obs">e</data>
+<data key="x">584.0</data>
+<data key="Label">¬d</data>
+<data key="y">277.0</data>
+</node>
+<node id="p2_6E">
+<data key="x">193.0</data>
+<data key="Label">⊡</data>
+<data key="y">30.0</data>
+</node>
+<node id="p2_14S">
+<data key="x">539.0</data>
+<data key="Label">¬d</data>
+<data key="y">282.0</data>
+</node>
+<node id="p2_Z">
+<data key="x">783.0</data>
+<data key="Label">⊡</data>
+<data key="y">521.0</data>
+</node>
+<node id="p2_2S">
+<data key="x">392.0</data>
+<data key="Label">⊡</data>
+<data key="y">623.0</data>
+</node>
+<node id="p2_11S">
+<data key="x">368.0</data>
+<data key="Label">⊡</data>
+<data key="y">439.0</data>
+</node>
+<node id="p2_13S">
+<data key="x">552.0</data>
+<data key="Label">d</data>
+<data key="y">581.0</data>
+</node>
+<node id="p2_80">
+<data key="x">47.0</data>
+<data key="Label">¬f</data>
+<data key="y">104.0</data>
+</node>
+<node id="p2_12E">
+<data key="x">773.0</data>
+<data key="Label">⊡</data>
+<data key="y">783.0</data>
+</node>
+<node id="p2_16E">
+<data key="x">577.0</data>
+<data key="Label">¬de</data>
+<data key="y">234.0</data>
+</node>
+<node id="p2_4S">
+<data key="x">21.0</data>
+<data key="Label">⊡</data>
+<data key="y">724.0</data>
+</node>
+<node id="p2_5E">
+<data key="x">150.0</data>
+<data key="Label">⊡</data>
+<data key="y">339.0</data>
+</node>
+<node id="p2_110">
+<data key="x">470.0</data>
+<data key="Label">d</data>
+<data key="y">507.0</data>
+</node>
+<node id="p2_13E">
+<data key="x">663.0</data>
+<data key="Label">d</data>
+<data key="y">580.0</data>
+</node>
+<node id="p2_Ω">
+<data key="x">778.0</data>
+<data key="Label">⊡</data>
+<data key="y">735.0</data>
+</node>
+<node id="p2_8S">
+<data key="x">27.0</data>
+<data key="Label">⊡</data>
+<data key="y">69.0</data>
+</node>
+<node id="p2_2E">
+<data key="x">266.0</data>
+<data key="Label">⊡</data>
+<data key="y">757.0</data>
+</node>
+<node id="p2_X11E?">
+<data key="Obs">d</data>
+<data key="x">545.0</data>
+<data key="Label">⊡</data>
+<data key="y">389.0</data>
+</node>
+<node id="p2_12S">
+<data key="x">781.0</data>
+<data key="Label">⊡</data>
+<data key="y">638.0</data>
+</node>
+<node id="p2_0S">
+<data key="x">728.0</data>
+<data key="Label">⊡</data>
+<data key="y">658.0</data>
+</node>
+<node id="p2_140">
+<data key="x">505.0</data>
+<data key="Label">¬de</data>
+<data key="y">220.0</data>
+</node>
+<node id="p2_0E">
+<data key="x">568.0</data>
+<data key="Label">⊡</data>
+<data key="y">686.0</data>
+</node>
+<node id="p2_16S">
+<data key="x">416.0</data>
+<data key="Label">¬de</data>
+<data key="y">214.0</data>
+</node>
+<node id="p2_7E">
+<data key="x">28.0</data>
+<data key="Label">⊡</data>
+<data key="y">20.0</data>
+</node>
+<node id="p2_17S">
+<data key="x">663.0</data>
+<data key="Label">¬d¬e</data>
+<data key="y">334.0</data>
+</node>
+<node id="p2_15S">
+<data key="x">661.0</data>
+<data key="Label">¬d</data>
+<data key="y">381.0</data>
+</node>
+<node id="p2_10S">
+<data key="x">178.0</data>
+<data key="Label">¬f</data>
+<data key="y">179.0</data>
+</node>
+<node id="p2_81">
+<data key="x">30.0</data>
+<data key="Label">f</data>
+<data key="y">200.0</data>
+</node>
+<node id="p2_4E">
+<data key="x">61.0</data>
+<data key="Label">⊡</data>
+<data key="y">640.0</data>
+</node>
+<node id="p2_5S">
+<data key="x">193.0</data>
+<data key="Label">⊡</data>
+<data key="y">545.0</data>
+</node>
+<edge id="p2_e126" source="p2_140" target="p2_X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬de) }</data>
+</edge>
+<edge id="p2_e114" source="p2_141" target="p2_14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e113" source="p2_14S" target="p2_141">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e127" source="p2_17E" target="p2_15S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e125" source="p2_X14E?" target="p2_140">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬de) }</data>
+</edge>
+<edge id="p2_e124" source="p2_4E" target="p2_4S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(4E, -25, ⊡) }</data>
+<data key="LabeledValues">{(-3, ⊡) }</data>
+</edge>
+<edge id="p2_e116" source="p2_10E" target="p2_X8E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬f) }</data>
+</edge>
+<edge id="p2_e91" source="p2_81" target="p2_9S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, f) }</data>
+</edge>
+<edge id="p2_e112" source="p2_140" target="p2_14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬de) }</data>
+</edge>
+<edge id="p2_e90" source="p2_17E" target="p2_X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e111" source="p2_14S" target="p2_140">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬de) }</data>
+</edge>
+<edge id="p2_e117" source="p2_15E" target="p2_12S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬d) }</data>
+</edge>
+<edge id="p2_e115" source="p2_16S" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬de) }</data>
+</edge>
+<edge id="p2_e118" source="p2_12S" target="p2_15E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d) }</data>
+</edge>
+<edge id="p2_e110" source="p2_7S" target="p2_6S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-14, ⊡) }</data>
+</edge>
+<edge id="p2_e81" source="p2_0E" target="p2_2S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e93" source="p2_17S" target="p2_X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e122" source="p2_141" target="p2_X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e120" source="p2_10S" target="p2_80">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬f) }</data>
+</edge>
+<edge id="p2_e128" source="p2_15S" target="p2_17E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e70" source="p2_Ω" target="p2_0S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-91, ⊡) }</data>
+</edge>
+<edge id="p2_e109" source="p2_6S" target="p2_7S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(43, ⊡) }</data>
+</edge>
+<edge id="p2_e105" source="p2_7S" target="p2_6E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e107" source="p2_1S" target="p2_12E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e72" source="p2_81" target="p2_X8E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, f) }</data>
+</edge>
+<edge id="p2_e103" source="p2_16S" target="p2_10S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-20, ¬de¬f) }</data>
+</edge>
+<edge id="p2_e101" source="p2_4S" target="p2_3E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e18" source="p2_9E" target="p2_9S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e97" source="p2_17E" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e98" source="p2_4E" target="p2_5S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e63" source="p2_8S" target="p2_80">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬f) }</data>
+</edge>
+<edge id="p2_e83" source="p2_13S" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, d) }</data>
+</edge>
+<edge id="p2_e86" source="p2_140" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬de) }</data>
+</edge>
+<edge id="p2_e87" source="p2_10S" target="p2_X8E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬f) }</data>
+</edge>
+<edge id="p2_e38" source="p2_7E" target="p2_7S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(7E, -24, ⊡) }</data>
+<data key="LabeledValues">{(-4, ⊡) }</data>
+</edge>
+<edge id="p2_e64" source="p2_80" target="p2_8S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬f) }</data>
+</edge>
+<edge id="p2_e60" source="p2_X14E?" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d) }</data>
+</edge>
+<edge id="p2_e49" source="p2_17S" target="p2_141">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e106" source="p2_12E" target="p2_1S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e41" source="p2_X11E?" target="p2_110">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, d) }</data>
+</edge>
+<edge id="p2_e129" source="p2_16S" target="p2_16E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(16E, 7, ¬de) }</data>
+<data key="LabeledValues">{(41, ¬de) }</data>
+</edge>
+<edge id="p2_e26" source="p2_11S" target="p2_111">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬d) }</data>
+</edge>
+<edge id="p2_e52" source="p2_7E" target="p2_8S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e94" source="p2_13E" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, d) }</data>
+</edge>
+<edge id="p2_e82" source="p2_2S" target="p2_0E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e15" source="p2_15S" target="p2_15E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ¬d) }</data>
+</edge>
+<edge id="p2_e121" source="p2_X14E?" target="p2_141">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e19" source="p2_17S" target="p2_17E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(17E, 5, ¬d¬e) }</data>
+<data key="LabeledValues">{(39, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e71" source="p2_X8E?" target="p2_81">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, f) }</data>
+</edge>
+<edge id="p2_e1" source="p2_2S" target="p2_17E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(345, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e22" source="p2_12E" target="p2_12S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e5" source="p2_8S" target="p2_X8E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ⊡) }</data>
+</edge>
+<edge id="p2_e102" source="p2_10S" target="p2_16S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(99, ¬de¬f) }</data>
+</edge>
+<edge id="p2_e75" source="p2_14S" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d) }</data>
+</edge>
+<edge id="p2_e9" source="p2_3E" target="p2_3S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(3E, -25, ⊡) }</data>
+<data key="LabeledValues">{(-3, ⊡) }</data>
+</edge>
+<edge id="p2_e79" source="p2_140" target="p2_16S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬de) }</data>
+</edge>
+<edge id="p2_e45" source="p2_13S" target="p2_13E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(13E, 4, d) }</data>
+<data key="LabeledValues">{(46, d) }</data>
+</edge>
+<edge id="p2_e21" source="p2_12S" target="p2_12E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="p2_e69" source="p2_12S" target="p2_13E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, d) }</data>
+</edge>
+<edge id="p2_e33" source="p2_15S" target="p2_16E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬de) }</data>
+</edge>
+<edge id="p2_e4" source="p2_5E" target="p2_5S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(5E, -16, ⊡) }</data>
+<data key="LabeledValues">{(-2, ⊡) }</data>
+</edge>
+<edge id="p2_e3" source="p2_5S" target="p2_5E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(5E, 3, ⊡) }</data>
+<data key="LabeledValues">{(28, ⊡) }</data>
+</edge>
+<edge id="p2_e68" source="p2_13E" target="p2_12S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, d) }</data>
+</edge>
+<edge id="p2_e10" source="p2_6S" target="p2_6E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(6E, 9, ⊡) }</data>
+<data key="LabeledValues">{(46, ⊡) }</data>
+</edge>
+<edge id="p2_e58" source="p2_Z" target="p2_0S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e44" source="p2_Ω" target="p2_1S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e56" source="p2_111" target="p2_14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬d) }</data>
+</edge>
+<edge id="p2_e55" source="p2_3S" target="p2_2E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e57" source="p2_14S" target="p2_111">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d) }</data>
+</edge>
+<edge id="p2_e35" source="p2_2S" target="p2_2E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(2E, 8, ⊡) }</data>
+<data key="LabeledValues">{(48, ⊡) }</data>
+</edge>
+<edge id="p2_e11" source="p2_11S" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ⊡) }</data>
+</edge>
+<edge id="p2_e59" source="p2_0S" target="p2_Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e31" source="p2_9S" target="p2_10E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬f) }</data>
+</edge>
+<edge id="p2_e66" source="p2_X8E?" target="p2_80">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬f) }</data>
+</edge>
+<edge id="p2_e67" source="p2_80" target="p2_X8E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬f) }</data>
+</edge>
+<edge id="p2_e36" source="p2_2E" target="p2_2S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(2E, -27, ⊡) }</data>
+<data key="LabeledValues">{(-6, ⊡) }</data>
+</edge>
+<edge id="p2_e34" source="p2_15E" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d) }</data>
+</edge>
+<edge id="p2_e32" source="p2_16E" target="p2_15S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬de) }</data>
+</edge>
+<edge id="p2_e30" source="p2_10E" target="p2_9S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬f) }</data>
+</edge>
+<edge id="p2_e37" source="p2_7S" target="p2_7E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(7E, 5, ⊡) }</data>
+<data key="LabeledValues">{(43, ⊡) }</data>
+</edge>
+<edge id="p2_e8" source="p2_3S" target="p2_3E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(3E, 4, ⊡) }</data>
+<data key="LabeledValues">{(45, ⊡) }</data>
+</edge>
+<edge id="p2_e53" source="p2_8S" target="p2_7E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e65" source="p2_0S" target="p2_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(933, ⊡) }</data>
+</edge>
+<edge id="p2_e89" source="p2_5S" target="p2_2S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-39, ⊡) }</data>
+</edge>
+<edge id="p2_e25" source="p2_0E" target="p2_0S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e12" source="p2_X11E?" target="p2_11S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e40" source="p2_111" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d) }</data>
+</edge>
+<edge id="p2_e42" source="p2_110" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, d) }</data>
+</edge>
+<edge id="p2_e14" source="p2_X14E?" target="p2_14S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d) }</data>
+</edge>
+<edge id="p2_e99" source="p2_5S" target="p2_4E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e23" source="p2_16E" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬de) }</data>
+</edge>
+<edge id="p2_e27" source="p2_111" target="p2_11S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d) }</data>
+</edge>
+<edge id="p2_e6" source="p2_X8E?" target="p2_8S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e51" source="p2_6S" target="p2_5E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e2" source="p2_17E" target="p2_2S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-147, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e46" source="p2_13E" target="p2_13S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(13E, -26, d) }</data>
+<data key="LabeledValues">{(-3, d) }</data>
+</edge>
+<edge id="p2_e48" source="p2_141" target="p2_17S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e74" source="p2_10E" target="p2_10S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(10E, -26, ¬f) }</data>
+<data key="LabeledValues">{(-11, ¬f) }</data>
+</edge>
+<edge id="p2_e78" source="p2_11S" target="p2_9E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_e76" source="p2_16E" target="p2_X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬de) }</data>
+</edge>
+<edge id="p2_e17" source="p2_9S" target="p2_9E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="p2_e61" source="p2_8S" target="p2_81">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, f) }</data>
+</edge>
+<edge id="p2_e29" source="p2_110" target="p2_11S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, d) }</data>
+</edge>
+<edge id="p2_e73" source="p2_10S" target="p2_10E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(10E, 14, ¬f) }</data>
+<data key="LabeledValues">{(46, ¬f) }</data>
+</edge>
+<edge id="p2_e85" source="p2_141" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e84" source="p2_16S" target="p2_X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬de) }</data>
+</edge>
+<edge id="p2_e130" source="p2_16E" target="p2_16S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(16E, -23, ¬de) }</data>
+<data key="LabeledValues">{(-5, ¬de) }</data>
+</edge>
+<edge id="p2_e28" source="p2_11S" target="p2_110">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, d) }</data>
+</edge>
+<edge id="p2_e50" source="p2_5E" target="p2_6S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e95" source="p2_110" target="p2_13S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, d) }</data>
+</edge>
+<edge id="p2_e96" source="p2_13S" target="p2_110">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, d) }</data>
+</edge>
+<edge id="p2_e16" source="p2_15E" target="p2_15S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬d) }</data>
+</edge>
+<edge id="p2_e39" source="p2_X11E?" target="p2_111">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬d) }</data>
+</edge>
+<edge id="p2_e119" source="p2_80" target="p2_10S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ¬f) }</data>
+</edge>
+<edge id="p2_e62" source="p2_81" target="p2_8S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, f) }</data>
+</edge>
+<edge id="p2_e13" source="p2_14S" target="p2_X14E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ¬d) }</data>
+</edge>
+<edge id="p2_e92" source="p2_9S" target="p2_81">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, f) }</data>
+</edge>
+<edge id="p2_e88" source="p2_2S" target="p2_5S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(112, ⊡) }</data>
+</edge>
+<edge id="p2_e54" source="p2_2E" target="p2_3S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e123" source="p2_4S" target="p2_4E">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(4E, 4, ⊡) }</data>
+<data key="LabeledValues">{(45, ⊡) }</data>
+</edge>
+<edge id="p2_e80" source="p2_16S" target="p2_140">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬de) }</data>
+</edge>
+<edge id="p2_e47" source="p2_15S" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d) }</data>
+</edge>
+<edge id="p2_e43" source="p2_1S" target="p2_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="p2_e108" source="p2_17S" target="p2_X11E?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(0, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e104" source="p2_6E" target="p2_7S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e24" source="p2_0S" target="p2_0E">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="p2_e7" source="p2_6E" target="p2_6S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(6E, -26, ⊡) }</data>
+<data key="LabeledValues">{(-7, ⊡) }</data>
+</edge>
+<edge id="p2_e20" source="p2_17E" target="p2_17S">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(17E, -22, ¬d¬e) }</data>
+<data key="LabeledValues">{(-4, ¬d¬e) }</data>
+</edge>
+<edge id="p2_e77" source="p2_9E" target="p2_11S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+<edge id="p2_e100" source="p2_3E" target="p2_4S">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(100, ⊡) }</data>
+</edge>
+
+
+<!-- -->
+<edge id="p1_Z-Z" source="p1_Z" target="Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="p2_Z-Z" source="p2_Z" target="Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="Ω-p1_Ω" source="Ω" target="p1_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="Ω-p2_Ω" source="Ω" target="p2_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+
+<edge id="p2_Z-p1_Ω" source="p2_Z" target="p1_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+
+<edge id="Z-Ω" source="Z" target="Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(500, ⊡) }</data>
+</edge>
+<!-- -->
+
+</graph>
+</graphml>

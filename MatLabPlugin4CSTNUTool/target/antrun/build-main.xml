@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <delete>
+      <fileset includes="MatLabPlugin4CSTNUTool-*.jar" dir="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/BinaryPkg/" />
+    </delete>
+    <copy file="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/target/MatLabPlugin4CSTNUTool-1.1.jar" preservelastmodified="true" tofile="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/BinaryPkg/MatLabPlugin4CSTNUTool-1.1.jar" />
+    <copy file="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/README.md" preservelastmodified="true" tofile="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/BinaryPkg/README.md" />
+    <copy file="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/RELEASE_NOTES.md" preservelastmodified="true" tofile="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/BinaryPkg/RELEASE_NOTES.md" />
+    <tar destfile="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/MatLabPlugin4CSTNUTool-1.1.tgz" compression="gzip">
+      <tarfileset prefix="MatLabPlugin4CSTNUTool-1.1" dir="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/BinaryPkg/">
+        <include name="**" />
+      </tarfileset>
+    </tar>
+    <delete>
+      <fileset includes="*.jar" dir="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/src/site/resources/bin/" />
+    </delete>
+    <copy file="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/MatLabPlugin4CSTNUTool-1.1.tgz" preservelastmodified="true" tofile="/Users/akalandadze/Desktop/CSTNU/MatLabPlugin4CSTNUTool/src/site/resources/bin/MatLabPlugin4CSTNUTool-1.1.tgz" />
+  </target>
+</project>

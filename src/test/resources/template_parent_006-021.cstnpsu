@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml">
+<key id="nContingent" for="graph">
+<desc>Number of contingents in the graph</desc>
+<default>0</default>
+</key>
+<key id="nObservedProposition" for="graph">
+<desc>Number of observed propositions in the graph</desc>
+<default>0</default>
+</key>
+<key id="NetworkType" for="graph">
+<desc>Network Type</desc>
+<default>CSTNU</default>
+</key>
+<key id="nEdges" for="graph">
+<desc>Number of edges in the graph</desc>
+<default>0</default>
+</key>
+<key id="nVertices" for="graph">
+<desc>Number of vertices in the graph</desc>
+<default>0</default>
+</key>
+<key id="Name" for="graph">
+<desc>Graph Name</desc>
+<default></default>
+</key>
+<key id="Obs" for="node">
+<desc>Proposition Observed. Value specification: [a-zA-F]</desc>
+<default></default>
+</key>
+<key id="x" for="node">
+<desc>The x coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Label" for="node">
+<desc>Label. Format: [¬[a-zA-F]|[a-zA-F]]+|⊡</desc>
+<default>⊡</default>
+</key>
+<key id="y" for="node">
+<desc>The y coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Potential" for="node">
+<desc>Labeled Potential Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="Type" for="edge">
+<desc>Type: Possible values: contingent|requirement|derived|internal.</desc>
+<default>requirement</default>
+</key>
+<key id="LowerCaseLabeledValues" for="edge">
+<desc>Labeled Lower-Case Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="UpperCaseLabeledValues" for="edge">
+<desc>Labeled Upper-Case Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="LabeledValues" for="edge">
+<desc>Labeled Values. Format: {[('integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<graph edgedefault="directed">
+<data key="nContingent">2</data>
+<data key="nObservedProposition">0</data>
+<data key="NetworkType">CSTNPSU</data>
+<data key="nEdges">8</data>
+<data key="nVertices">6</data>
+<data key="Name">template_parent_006-021.cstnpsu</data>
+<node id="Z">
+<data key="x">92.0</data>
+<data key="Label">⊡</data>
+<data key="y">201.0</data>
+</node>
+<node id="p1_Z">
+<data key="x">252.0</data>
+<data key="Label">⊡</data>
+<data key="y">91.0</data>
+</node>
+<node id="p1_Ω">
+<data key="x">536.0</data>
+<data key="Label">⊡</data>
+<data key="y">193.0</data>
+</node>
+<node id="p2_Z">
+<data key="x">555.0</data>
+<data key="Label">⊡</data>
+<data key="y">447.0</data>
+</node>
+<node id="p2_Ω">
+<data key="x">227.0</data>
+<data key="Label">⊡</data>
+<data key="y">565.0</data>
+</node>
+<node id="Ω">
+<data key="x">86.0</data>
+<data key="Label">⊡</data>
+<data key="y">465.0</data>
+</node>
+<edge id="p1_Z_p1_Ω" source="p1_Z" target="p1_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1000, ⊡) }</data>
+</edge>
+<edge id="ep1_Ω-p1_Z" source="p1_Ω" target="p1_Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="ep2_Z-p1_Ω" source="p2_Z" target="p1_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="ep1_Z-Z" source="p1_Z" target="Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="ep2_Ω-p2_Z" source="p2_Ω" target="p2_Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="eΩ-p2_Ω" source="Ω" target="p2_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="ep2_Z-p2_Ω" source="p2_Z" target="p2_Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1000, ⊡) }</data>
+</edge>
+<edge id="eZ-Ω" source="Z" target="Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(500, ⊡) }</data>
+</edge>
+</graph>
+</graphml>

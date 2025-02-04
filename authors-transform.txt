@@ -1,0 +1,2 @@
+ocampo = Mario Ocampo-Pineda <mario.ocampo@univr.it>
+posenato = Roberto Posenato <roberto.posenato@univr.it>

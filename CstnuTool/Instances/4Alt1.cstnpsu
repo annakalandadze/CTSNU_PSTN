@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml">
+<key id="nContingent" for="graph">
+<desc>Number of contingents in the graph</desc>
+<default>0</default>
+</key>
+<key id="nObservedProposition" for="graph">
+<desc>Number of observed propositions in the graph</desc>
+<default>0</default>
+</key>
+<key id="NetworkType" for="graph">
+<desc>Network Type</desc>
+<default>CSTNU</default>
+</key>
+<key id="nEdges" for="graph">
+<desc>Number of edges in the graph</desc>
+<default>0</default>
+</key>
+<key id="nVertices" for="graph">
+<desc>Number of vertices in the graph</desc>
+<default>0</default>
+</key>
+<key id="Name" for="graph">
+<desc>Graph Name</desc>
+<default></default>
+</key>
+<key id="Obs" for="node">
+<desc>Proposition Observed. Value specification: [a-zA-F]</desc>
+<default></default>
+</key>
+<key id="x" for="node">
+<desc>The x coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Label" for="node">
+<desc>Label. Format: [¬[a-zA-F]|[a-zA-F]]+|⊡</desc>
+<default>⊡</default>
+</key>
+<key id="y" for="node">
+<desc>The y coordinate for the visualization. A positive value.</desc>
+<default>0</default>
+</key>
+<key id="Potential" for="node">
+<desc>Labeled Potential Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="Type" for="edge">
+<desc>Type: Possible values: contingent|requirement|derived|internal.</desc>
+<default>requirement</default>
+</key>
+<key id="LowerCaseLabeledValues" for="edge">
+<desc>Labeled Lower-Case Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="UpperCaseLabeledValues" for="edge">
+<desc>Labeled Upper-Case Values. Format: {[('node name (no case modification)', 'integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<key id="LabeledValues" for="edge">
+<desc>Labeled Values. Format: {[('integer', 'label') ]+}|{}</desc>
+<default></default>
+</key>
+<graph edgedefault="directed">
+<data key="nContingent">5</data>
+<data key="nObservedProposition">2</data>
+<data key="NetworkType">CSTNPSU</data>
+<data key="nEdges">78</data>
+<data key="nVertices">18</data>
+<data key="Name">4Alt1.cstnpsu</data>
+<node id="Z">
+<data key="x">80.0</data>
+<data key="Label">⊡</data>
+<data key="y">31.0</data>
+</node>
+<node id="Ω">
+<data key="x">73.0</data>
+<data key="Label">⊡</data>
+<data key="y">987.0</data>
+</node>
+<node id="n7">
+<data key="x">242.0</data>
+<data key="Label">⊡</data>
+<data key="y">323.0</data>
+</node>
+<node id="B?">
+<data key="Obs">b</data>
+<data key="x">451.0</data>
+<data key="Label">⊡</data>
+<data key="y">686.0</data>
+</node>
+<node id="n13">
+<data key="x">173.0</data>
+<data key="Label">b</data>
+<data key="y">855.0</data>
+</node>
+<node id="n2">
+<data key="x">137.0</data>
+<data key="Label">a</data>
+<data key="y">112.0</data>
+</node>
+<node id="n10">
+<data key="x">689.0</data>
+<data key="Label">⊡</data>
+<data key="y">550.0</data>
+</node>
+<node id="n12">
+<data key="x">309.0</data>
+<data key="Label">b</data>
+<data key="y">767.0</data>
+</node>
+<node id="A?">
+<data key="Obs">a</data>
+<data key="x">357.0</data>
+<data key="Label">⊡</data>
+<data key="y">5.0</data>
+</node>
+<node id="n8">
+<data key="x">241.0</data>
+<data key="Label">⊡</data>
+<data key="y">437.0</data>
+</node>
+<node id="n3">
+<data key="x">289.0</data>
+<data key="Label">a</data>
+<data key="y">221.0</data>
+</node>
+<node id="n9">
+<data key="x">380.0</data>
+<data key="Label">⊡</data>
+<data key="y">507.0</data>
+</node>
+<node id="n15">
+<data key="x">621.0</data>
+<data key="Label">¬b</data>
+<data key="y">925.0</data>
+</node>
+<node id="n16">
+<data key="x">406.0</data>
+<data key="Label">⊡</data>
+<data key="y">1012.0</data>
+</node>
+<node id="n4">
+<data key="x">757.0</data>
+<data key="Label">¬a</data>
+<data key="y">56.0</data>
+</node>
+<node id="n6">
+<data key="x">401.0</data>
+<data key="Label">⊡</data>
+<data key="y">300.0</data>
+</node>
+<node id="n14">
+<data key="x">612.0</data>
+<data key="Label">¬b</data>
+<data key="y">751.0</data>
+</node>
+<node id="n5">
+<data key="x">506.0</data>
+<data key="Label">¬a</data>
+<data key="y">208.0</data>
+</node>
+<edge id="B?_Z" source="B?" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ⊡) }</data>
+</edge>
+<edge id="e21" source="B?" target="n10">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e17" source="n8" target="n9">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(n9, 2, ⊡) }</data>
+<data key="LabeledValues">{(12, ⊡) }</data>
+</edge>
+<edge id="e33" source="n16" target="n15">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬b) }</data>
+</edge>
+<edge id="Z_n7" source="Z" target="n7">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ⊡) }</data>
+</edge>
+<edge id="e29" source="n15" target="n14">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(n15, -7, ¬b) }</data>
+<data key="LabeledValues">{(-4, ¬b) }</data>
+</edge>
+<edge id="n2_Z" source="n2" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, a) }</data>
+</edge>
+<edge id="Z_n12" source="Z" target="n12">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, b) }</data>
+</edge>
+<edge id="e4" source="n3" target="n2">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(n3, -6, a) }</data>
+<data key="LabeledValues">{(-1, a) }</data>
+</edge>
+<edge id="e3" source="n2" target="n3">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(n3, 2, a) }</data>
+<data key="LabeledValues">{(10, a) }</data>
+</edge>
+<edge id="n13_Z" source="n13" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, b) }</data>
+</edge>
+<edge id="Z_n13" source="Z" target="n13">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, b) }</data>
+</edge>
+<edge id="e10" source="n6" target="n3">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, a) }</data>
+</edge>
+<edge id="e28" source="n14" target="n15">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(n15, 5, ¬b) }</data>
+<data key="LabeledValues">{(12, ¬b) }</data>
+</edge>
+<edge id="e18" source="n9" target="n8">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(n9, -7, ⊡) }</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="n9_Z" source="n9" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ⊡) }</data>
+</edge>
+<edge id="n15_Z" source="n15" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ¬b) }</data>
+</edge>
+<edge id="n3_A?" source="n3" target="A?">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, a) }</data>
+</edge>
+<edge id="e16" source="n8" target="n7">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="n13_B?" source="n13" target="B?">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, b) }</data>
+</edge>
+<edge id="e35" source="Ω" target="n16">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="n16_Z" source="n16" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ⊡) }</data>
+</edge>
+<edge id="e11" source="n5" target="n6">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, ¬a) }</data>
+</edge>
+<edge id="e39" source="Ω" target="Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-15, ⊡) }</data>
+</edge>
+<edge id="n6_Z" source="n6" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ⊡) }</data>
+</edge>
+<edge id="e31" source="n16" target="n13">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, b) }</data>
+</edge>
+<edge id="Z_n5" source="Z" target="n5">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ¬a) }</data>
+</edge>
+<edge id="Z_n15" source="Z" target="n15">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ¬b) }</data>
+</edge>
+<edge id="Z_n14" source="Z" target="n14">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ¬b) }</data>
+</edge>
+<edge id="Z_n10" source="Z" target="n10">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ⊡) }</data>
+</edge>
+<edge id="e38" source="Z" target="Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(34, ⊡) }</data>
+</edge>
+<edge id="e34" source="n16" target="Ω">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(2, ⊡) }</data>
+</edge>
+<edge id="e36" source="n2" target="n13">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(27, ab) }</data>
+</edge>
+<edge id="Z_n2" source="Z" target="n2">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, a) }</data>
+</edge>
+<edge id="Z_n4" source="Z" target="n4">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ¬a) }</data>
+</edge>
+<edge id="e32" source="n15" target="n16">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, ¬b) }</data>
+</edge>
+<edge id="Z_n8" source="Z" target="n8">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ⊡) }</data>
+</edge>
+<edge id="e30" source="n13" target="n16">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, b) }</data>
+</edge>
+<edge id="n4_Z" source="n4" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ¬a) }</data>
+</edge>
+<edge id="Z_n6" source="Z" target="n6">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ⊡) }</data>
+</edge>
+<edge id="Z_n9" source="Z" target="n9">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ⊡) }</data>
+</edge>
+<edge id="e13" source="n6" target="n7">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(2, ⊡) }</data>
+</edge>
+<edge id="e37" source="n13" target="n2">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-22, ab) }</data>
+</edge>
+<edge id="Z_n16" source="Z" target="n16">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ⊡) }</data>
+</edge>
+<edge id="Z_n3" source="Z" target="n3">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, a) }</data>
+</edge>
+<edge id="e8" source="n5" target="n4">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(n5, -6, ¬a) }</data>
+<data key="LabeledValues">{(-3, ¬a) }</data>
+</edge>
+<edge id="n12_Z" source="n12" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, b) }</data>
+</edge>
+<edge id="Z_B?" source="Z" target="B?">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(578, ⊡) }</data>
+</edge>
+<edge id="e41" source="n4" target="n13">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(27, ¬ab) }</data>
+</edge>
+<edge id="e0" source="A?" target="Z">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="n15_B?" source="n15" target="B?">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ¬b) }</data>
+</edge>
+<edge id="n3_Z" source="n3" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, a) }</data>
+</edge>
+<edge id="e26" source="B?" target="n14">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, ¬b) }</data>
+</edge>
+<edge id="e25" source="n13" target="n12">
+<data key="Type">contingent</data>
+<data key="UpperCaseLabeledValues">{(n13, -8, b) }</data>
+<data key="LabeledValues">{(-2, b) }</data>
+</edge>
+<edge id="n14_Z" source="n14" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ¬b) }</data>
+</edge>
+<edge id="n8_Z" source="n8" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ⊡) }</data>
+</edge>
+<edge id="e12" source="n6" target="n5">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬a) }</data>
+</edge>
+<edge id="e40" source="n13" target="n4">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-17, ¬ab) }</data>
+</edge>
+<edge id="e42" source="n10" target="B?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(10, ⊡) }</data>
+</edge>
+<edge id="e14" source="n7" target="n6">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e15" source="n7" target="n8">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, ⊡) }</data>
+</edge>
+<edge id="e23" source="n12" target="B?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, b) }</data>
+</edge>
+<edge id="e27" source="n14" target="B?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬b) }</data>
+</edge>
+<edge id="e43" source="Z" target="A?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(5, ⊡) }</data>
+</edge>
+<edge id="e19" source="n9" target="n10">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, ⊡) }</data>
+</edge>
+<edge id="e6" source="n4" target="A?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ¬a) }</data>
+</edge>
+<edge id="e2" source="n2" target="A?">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-2, a) }</data>
+</edge>
+<edge id="n7_Z" source="n7" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ⊡) }</data>
+</edge>
+<edge id="n5_A?" source="n5" target="A?">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ¬a) }</data>
+</edge>
+<edge id="e1" source="A?" target="n2">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(2, a) }</data>
+</edge>
+<edge id="e22" source="B?" target="n12">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, b) }</data>
+</edge>
+<edge id="e24" source="n12" target="n13">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(n13, 3, b) }</data>
+<data key="LabeledValues">{(14, b) }</data>
+</edge>
+<edge id="e7" source="n4" target="n5">
+<data key="Type">contingent</data>
+<data key="LowerCaseLabeledValues">{(n5, 4, ¬a) }</data>
+<data key="LabeledValues">{(10, ¬a) }</data>
+</edge>
+<edge id="n10_Z" source="n10" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ⊡) }</data>
+</edge>
+<edge id="e5" source="A?" target="n4">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, ¬a) }</data>
+</edge>
+<edge id="e20" source="n10" target="n9">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(-1, ⊡) }</data>
+</edge>
+<edge id="e9" source="n3" target="n6">
+<data key="Type">requirement</data>
+<data key="LabeledValues">{(1, a) }</data>
+</edge>
+<edge id="n5_Z" source="n5" target="Z">
+<data key="Type">internal</data>
+<data key="LabeledValues">{(0, ¬a) }</data>
+</edge>
+</graph>
+</graphml>

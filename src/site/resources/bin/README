@@ -1,0 +1,2 @@
+The existence of this directory is mandated by the build script.
+Because git doesn't track empty directories, we check in this file.

@@ -1,0 +1,496 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.univr.di</groupId>
+	<artifactId>MatLabPlugin4CSTNUTool</artifactId>
+	<packaging>jar</packaging>
+	<version>1.1</version>
+	<name>MatLabPlugin4CSTNUTool</name>
+	<url>https://prof.sci.univr.it/~posenato/software/cstnu/matlabplugin</url>
+	<properties>
+		<exportAntProperties>true</exportAntProperties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.tool.filename>MatLabPlugin4CSTNUTool-${project.version}</project.tool.filename>
+		<project.jar.filename>${project.artifactId}-${project.version}.jar</project.jar.filename>
+		<project.sourcejar.filename>${project.artifactId}-${project.version}-sources.jar</project.sourcejar.filename>
+		<project.javadocjar.filename    >${project.artifactId}-${project.version}-javadoc.jar</project.javadocjar.filename>
+		<project.toolDirectory>BinaryPkg</project.toolDirectory>
+		<java.version>21</java.version>
+		<debug>false</debug>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE, Version 3</name>
+			<url>https://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+			<distribution>repo</distribution>
+			<comments>For all Java Source files</comments>
+		</license>
+		<license>
+			<name>CC0 1.0 Universal</name>
+			<url>https://creativecommons.org/publicdomain/zero/1.0/legalcode</url>
+			<distribution>repo</distribution>
+			<comments>For no Java source files</comments>
+		</license>
+	</licenses>
+	<organization>
+		<name>Computer Science Department - University of Verona - Italy</name>
+		<url>https://www.di.univr.it</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>posenato</id>
+			<name>Roberto Posenato</name>
+			<email>roberto.posenato@univr.it</email>
+			<url>https://profs.sci.univr.it/~posenato</url>
+			<organization>Computer Science Department - University of Verona - Italy</organization>
+			<organizationUrl>https://www.di.univr.it</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>Europe/Rome</timezone>
+			<properties>
+				<picUrl>
+					https://profs.sci.univr.it/~posenato/home/sites/default/files/styles/thumbnail/public/ritratto2013Fontana.png
+				</picUrl>
+			</properties>
+		</developer>
+	</developers>
+
+	<dependencies>
+		<!--
+			***Configure***
+            to compile the MatLabEngine class, it is convenient to manually add the following Maven dependency to local .m2 rep:
+			`mvn install:install-file -Dfile=/Users/akalandadze/Desktop/CSTNU/CSTNUTool/CSTNU-Tool-5.0.jar -DgroupId=it.univr.di -DartifactId=CSTNU-Tool \
+			-Dversion=5.0 -Dpackaging=jar -DgeneratePom=true`
+		-->
+		<dependency>
+			<groupId>it.univr.di</groupId>
+			<artifactId>CSTNU-Tool</artifactId>
+			<version>5.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!--
+		***Configure***
+		 to compile the MatLabEngine class, it is convenient to manually add the following Maven dependency to local .m2 rep:
+        `mvn install:install-file -Dfile=/Applications/MATLAB_R2024b.app/extern/engines/java/jar/engine.jar -DgroupId=com.mathworks -DartifactId=matlab \
+        -Dversion=R2024b -Dpackaging=jar -DgeneratePom=true`
+        -->
+		<dependency>
+			<groupId>com.mathworks</groupId>
+			<artifactId>matlab</artifactId>
+			<version>R2024b</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency> <!--necessary for the annotation-->
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs-maven-plugin</artifactId>
+			<version>4.8.6.2</version>
+			<exclusions>
+				<!-- xml-apis is already loaded by java17-->
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
+
+	<distributionManagement>
+		<site>
+			<id>profs</id>
+			<!-- https://maven.apache.org/guides/mini/guide-encryption.html explains how to manage the password with scp.
+			Remember that the master password is the one of 2017
+			-->
+			<url>scp://profs.scienze.univr.it/home/posenato/public_html/software/cstnu/matlabplugin/</url>
+		</site>
+		<repository>
+			<id>internal.repo</id>
+			<name>Internal repo</name>
+			<url>file:///tmp</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>3.5.3</version>
+			</extension>
+		</extensions>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<version>3.13.0</version>
+				<configuration>
+					<release>${java.version}</release>
+					<compilerArgs>
+						<!-- <arg>-proc:none</arg>-->
+						<arg>-sourcepath</arg><!-- passing a null sourcepath allows a better management of excludes/includes-->
+						<arg>null</arg>
+						<arg>-Xlint:unchecked</arg>
+					</compilerArgs>
+					<verbose>false</verbose>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+					<fork>false</fork>
+					<excludes>
+					</excludes>
+					<testExcludes>
+					</testExcludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- execute Junit tests -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<!--
+					***Configure***
+					Adjust the path to your MatLab installation and architecture.
+					-->
+					<argLine>-Djava.library.path=/Applications/MATLAB_R2024b.app/bin/maca64:$PATH -Duser.country=US -Duser.language=en</argLine>
+					<excludes>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.7.0</version>
+				<executions>
+					<execution>
+						<id>checkJavadoc</id>
+						<phase>test</phase>
+						<goals>
+							<goal>javadoc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doclint>all,-missing</doclint>
+					<source>${java.version}</source>
+					<detectJavaApiLink>false</detectJavaApiLink>
+					<!-- Specify the source directory explicitly -->
+					<verbose>false</verbose>
+					<sourceFileExcludes>
+					</sourceFileExcludes>
+					<keywords>true</keywords>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.8.6.2</version>
+				<executions>
+					<!-- This execution guarantees that the static analysis is done before packaging. -->
+					<execution>
+						<id>check</id>
+						<phase>test</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<debug>false</debug>
+					<effort>Max</effort>
+					<threshold>Minimum</threshold>
+					<xmlOutput>false</xmlOutput>
+					<xmlOutputDirectory>target/site</xmlOutputDirectory>
+					<excludeFilterFile>${basedir}/spotbugs-exclude.xml</excludeFilterFile>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.6.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>junit:junit</exclude>
+								</excludes>
+							</artifactSet>
+							<minimizeJar>true</minimizeJar>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>module-info.class</exclude>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+										<exclude>logging.properties</exclude>
+									</excludes>
+								</filter>
+								<filter>
+									<!-- This force the inclusion of com.mathworks:matlab that it is necessary but excluded by Maven:shade for some reason. -->
+									<artifact>com.mathworks:matlab</artifact>
+									<includes>
+										<include>**</include>
+									</includes>
+								</filter>
+							</filters>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
+								<!-- This bit merges the various META-INF/services files -->
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<!-- By default, maven compile and maven package disable the debug code by this process-sources.
+						For having a package with debug code, it is sufficient to execute
+						`mvn package -Ddebug`
+						or set the environment variable 'debug' to true at the start of this file.
+						-->
+						<id>process-sources-debug</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<exportAntProperties>true</exportAntProperties>
+							<target>
+								<condition property="debugNormalized" value="true" else="false">
+									<or>
+										<equals arg1="${debug}" arg2="True"/>
+										<equals arg1="${debug}" arg2="true"/>
+										<equals arg1="${debug}" arg2=""/>
+									</or>
+								</condition>
+								<!--suppress UnresolvedMavenProperty -->
+								<echo>Set Debug.java to ${debugNormalized}</echo>
+								<!--suppress UnresolvedMavenProperty -->
+								<replaceregexp file="${basedir}/src/main/java/it/univr/di/cstnu/matlabplugin/Debug.java"
+								               match="ON\s*=\s.*"
+								               replace="ON = ${debugNormalized};"/>
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>package</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<exportAntProperties>true</exportAntProperties>
+							<target>
+								<delete>
+									<fileset dir="${basedir}/${project.toolDirectory}/"
+									         includes="${project.artifactId}-*.jar"/>
+								</delete>
+								<copy preservelastmodified="true"
+								      file="${project.build.directory}/${project.jar.filename}"
+								      tofile="${basedir}/${project.toolDirectory}/${project.jar.filename}"/>
+								<copy preservelastmodified="true" file="${basedir}/README.md"
+								      tofile="${basedir}/${project.toolDirectory}/README.md"/>
+								<copy preservelastmodified="true" file="${basedir}/RELEASE_NOTES.md"
+								      tofile="${basedir}/${project.toolDirectory}/RELEASE_NOTES.md"/>
+								<tar compression="gzip" destfile="${basedir}/${project.tool.filename}.tgz">
+									<tarfileset dir="${basedir}/${project.toolDirectory}/" prefix="${project.tool.filename}">
+										<include name="**"/>
+									</tarfileset>
+								</tar>
+								<delete>
+									<fileset dir="${basedir}/src/site/resources/bin/" includes="*.jar"/>
+								</delete>
+								<copy preservelastmodified="true" file="${basedir}/${project.tool.filename}.tgz"
+								      tofile="${basedir}/src/site/resources/bin/${project.tool.filename}.tgz"/>
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>pre-site</id>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<!--								<delete dir="${basedir}/target/site" verbose="true"/>-->
+								<copy preservelastmodified="true" file="${basedir}/README.md"
+								      tofile="${basedir}/${project.toolDirectory}/README.md" verbose="true"/>
+								<copy preservelastmodified="true" file="${basedir}/RELEASE_NOTES.md"
+								      tofile="${basedir}/${project.toolDirectory}/RELEASE_NOTES.md"/>
+								<concat destfile="${basedir}/src/site/markdown/download.md" force="yes">
+									<filelist dir="${basedir}/src/site/markdown" files="download1stpart.txt"/>
+									<filelist dir="${basedir}" files="RELEASE_NOTES.md"/>
+								</concat>
+							</target>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>site</id>
+						<phase>site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy todir="${basedir}/target/site/bin/" preservelastmodified="true" verbose="true">
+									<fileset dir="${basedir}/src/site/resources/bin/">
+										<include name="*.tgz"/>
+									</fileset>
+								</copy>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.1</version>
+				<!-- <configuration> <skip>true</skip> </configuration> -->
+				<dependencies>
+					<dependency>
+						<!-- add support for ssh/scp -->
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>3.5.3</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-apt</artifactId>
+						<version>1.12.0</version><!--2.0.0-M9 incompatible with 3.12.1-->
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-xhtml</artifactId>
+						<version>1.12.0</version><!--2.0.0-M3 incompatible with 3.12.1-->
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-markdown</artifactId>
+						<version>1.12.0</version><!--2.0.0-M9 incompatible with 3.12.1-->
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.skins</groupId>
+						<artifactId>maven-fluido-skin</artifactId>
+						<version>1.12.0</version><!--2.0.0-M incompatible with 3.12.1-->
+					</dependency>
+				</dependencies>
+			</plugin>
+
+		</plugins>
+		<resources>
+		</resources>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.6.2</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>team</report>
+							<report>licenses</report>
+							<report>dependency-info</report>
+							<report>scm</report>
+							<!-- <report>mailing-list</report> <report>cim</report> <report>issue-tracking</report> -->
+							<report>summary</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.7.0</version>
+				<reportSets>
+					<reportSet>
+						<id>html</id>
+						<reports>
+							<report>aggregate-no-fork</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+				<configuration>
+					<show>package</show>
+					<doclint>
+						all,-missing
+					</doclint>
+					<source>${java.version}</source>
+					<detectJavaApiLink>false</detectJavaApiLink>
+					<!-- Specify the source directory explicitly -->
+					<verbose>false</verbose>
+					<sourceFileExcludes>
+					</sourceFileExcludes>
+					<keywords>true</keywords>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.8.6.4</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Minimum</threshold>
+					<xmlOutput>true</xmlOutput>
+					<xmlOutputDirectory>target/site</xmlOutputDirectory>
+					<excludeFilterFile>${basedir}/spotbugs-exclude.xml</excludeFilterFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>Debug</id>
+			<activation>
+				<property>
+					<name>debug</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins/>
+			</build>
+		</profile>
+	</profiles>
+</project>
