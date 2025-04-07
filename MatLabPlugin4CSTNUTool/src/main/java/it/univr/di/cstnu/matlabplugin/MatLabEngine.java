@@ -162,6 +162,20 @@ public final class MatLabEngine implements AutoCloseable, OptimizationEngine {
 			ub[j] = x[j];
 			final double mean = Math.exp(mu[i / 2]);
 			lb[j] = ub[i] = mean;
+			if (lb[i] > ub[i]) {
+				lb[i] = Math.min(x[i], mean);
+				ub[i] = Math.max(x[i], mean);
+			}
+			if (lb[j] > ub[j]) {
+				lb[j] = Math.min(x[j], mean);
+				ub[j] = Math.max(x[j], mean);
+			}
+//			final double mean = Math.exp(mu[i / 2]);
+//			lb[i] = Math.min(x[i], mean); // Lower bound should be the smaller value
+//			ub[i] = Math.max(x[i], mean); // Upper bound should be the larger value
+//
+//			lb[j] = Math.min(x[j], mean);
+//			ub[j] = Math.max(x[j], mean);
 			if (Debug.ON) {
 				if (LOG.isLoggable(Level.FINEST)) {
 					LOG.finest("Bounds associated to contingent link " + i / 2 + ": "
@@ -208,9 +222,13 @@ public final class MatLabEngine implements AutoCloseable, OptimizationEngine {
 		final Object objFunc = eng.getVariable("obj");
 
 		final Object[] results = eng.feval(3, "fmincon", objFunc, x, A, b, new double[0], new double[0], lb, ub, new double[0], options);
+		final double exitFlag = (double) results[2];
+
+		if (exitFlag < 1) {
+			return new OptimizationResult(null, 0, (int) exitFlag);
+		}
 		final double[] xNew = (double[]) results[0];
 		final double optimum = (double) results[1];
-		final double exitFlag = (double) results[2];
 		if (Debug.ON) {
 			if (LOG.isLoggable(Level.FINEST)) {
 				LOG.finest("Value using objective: "+ ((Double) eng.feval("objective",xNew,mu,sigma)));

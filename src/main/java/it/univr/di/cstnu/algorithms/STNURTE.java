@@ -6,6 +6,7 @@ import it.univr.di.Debug;
 import it.univr.di.cstnu.graph.*;
 import it.univr.di.cstnu.util.ActiveWaits;
 import it.univr.di.cstnu.util.ExtendedPriorityQueue;
+import it.univr.di.cstnu.util.LogNormalDistributionParameter;
 import it.univr.di.cstnu.util.TimeInterval;
 import it.univr.di.labeledvalue.Constants;
 import org.apache.commons.lang3.time.StopWatch;
@@ -17,9 +18,7 @@ import org.xml.sax.SAXException;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Level;
@@ -239,7 +238,10 @@ public class STNURTE {
 	 * can be empty but not null.
 	 */
 	@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "It is not important!")
-	public record NodeOccurrence(int occurrenceTime, Set<LabeledNode> nodes) {
+	public record NodeOccurrence(int occurrenceTime, Set<LabeledNode> nodes, int label) {
+		public NodeOccurrence(int occurrenceTime, Set<LabeledNode> nodes) {
+			this(occurrenceTime, nodes, 0); // Calls the main constructor, setting label = 0
+		}
 		@Override
 		public String toString() {
 			return "(%s, %s)".formatted(Constants.formatInt(occurrenceTime), nodes);
@@ -374,8 +376,8 @@ public class STNURTE {
 		 */
 		private final ObjectSet<LabeledNode> enabledNode;
 		/**
-		 * Active contingent links, represented as map (activationNode, ContingentLink). A contingent link (A,x,yC) is active when schedule(A) ≤ currentTime and
-		 * schedule(C) = +∞
+		 * Active contingent links, represented as map (activationNode, ContingentLink). A contingent link (A,x,yC) is active when schedule.txt(A) ≤ currentTime and
+		 * schedule.txt(C) = +∞
 		 */
 		private final Object2ObjectMap<LabeledNode, ContingentLink> activeContingentLink;
 		/**
@@ -417,13 +419,15 @@ public class STNURTE {
 		 */
 		public NodeAndExecutionTimeChoice rtedStrategy;
 		/**
-		 * Schedule. Map (node, real) that represents the schedule of the network. It is filled by {@link #rte(Strategy, Strategy)} method.
+		 * Schedule. Map (node, real) that represents the schedule.txt of the network. It is filled by {@link #rte(Strategy, Strategy)} method.
 		 */
 		public Object2IntOpenHashMap<LabeledNode> schedule;
 		/**
 		 * Current time
 		 */
-		private int currentTime;
+		public int currentTime;
+
+		public boolean finished = false;
 
 		/**
 		 * Default constructor
@@ -454,7 +458,7 @@ public class STNURTE {
 		}
 
 		/**
-		 * @return the schedule as an array sorted w.r.t. the order of node execution.
+		 * @return the schedule.txt as an array sorted w.r.t. the order of node execution.
 		 */
 		public Object2IntMap.Entry<LabeledNode>[] getOrderedSchedule() {
 			final Comparator<? super Object2IntMap.Entry<LabeledNode>> cmp = (o1, o2) -> {
@@ -470,7 +474,7 @@ public class STNURTE {
 		}
 
 		/**
-		 * @return a view-only copy of the current schedule.
+		 * @return a view-only copy of the current schedule.txt.
 		 */
 		public Object2IntMap<LabeledNode> getSchedule() {
 			return Object2IntMaps.unmodifiable(schedule);
@@ -482,7 +486,7 @@ public class STNURTE {
 		@SuppressFBWarnings("VA_FORMAT_STRING_USES_NEWLINE")//false positive
 		public String toString() {
 			return """
-			       schedule: %s
+			       schedule.txt: %s
 			       GLB: %s
 			       GUB: %s
 			       uONodes: %s
@@ -648,11 +652,19 @@ public class STNURTE {
 	 * Logger of the class.
 	 */
 	private static final Logger LOG = Logger.getLogger(STNURTE.class.getName());
-
+	private static ObjectArraySet<LabeledNode> process(@Nonnull TNGraph<STNUEdge> graph) {
+		ObjectArraySet nodes = new ObjectArraySet<>();
+		for (final LabeledNode node : graph.getVertices()) {
+			if (node.isContingent()) {
+				nodes.add(node);
+			}
+		}
+		return nodes;
+	}
 	/**
 	 * @param args an array of {@link String} objects.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 		final STNURTE rte = new STNURTE();
 		System.out.println(rte.getVersionAndCopyright());
 		if (Debug.ON) {
@@ -673,6 +685,7 @@ public class STNURTE {
 			LOG.info("Loading graph...");
 		}
 		final TNGraphMLReader<STNUEdge> graphMLReader = new TNGraphMLReader<>();
+		final TNGraph<STNUEdge> graphToPlay = graphMLReader.readGraph(new File("/Users/akalandadze/Desktop/Thesis/rcpsp-max-pstn/temporal_networks/cstnu_tool/xml_files/10_5_0_0.1_1_pstn-dc.stnu"), STNUEdgeInt.class);
 		try {
 			final TNGraph<STNUEdge> graph = graphMLReader.readGraph(rte.fInput, STNUEdgeInt.class);
 			rte.setG(graph);
@@ -682,19 +695,30 @@ public class STNURTE {
 		if (Debug.ON) {
 			LOG.info("STNU Graph loaded!\nNow, it is time to execute it...");
 		}
+		ObjectArraySet<LabeledNode> nodes = process(graphToPlay);
+		Map<LabeledNode, Integer> sample = new HashMap<>();
+		Random rng = new Random(0);
+		for (LabeledNode node: nodes) {
+			double stdNormal = rng.nextGaussian();
+			LogNormalDistributionParameter logN = node.getLogNormalDistribution();
+			double mean = logN.getLocation();
+			double scale = logN.getScale();
+			sample.put(node, (int) Math.exp(scale * stdNormal + mean));
+		}
+
 		final Strategy rtedStrategy = rte.chosenRtedStrategy != null ? rte.chosenRtedStrategy : StrategyEnum.FIRST_NODE_EARLY_EXECUTION_STRATEGY;
 		final Strategy environmentStrategy = rte.chosenEnvironmentStrategy != null ? rte.chosenEnvironmentStrategy : StrategyEnum.LATE_EXECUTION_STRATEGY;
-		final RTEState rteState = rte.rte(rtedStrategy, environmentStrategy);
+        final RTEState rteState = rte.rte(rtedStrategy, environmentStrategy, sample);
 		if (rte.fOutput != null) {
-			System.out.println("Saving the schedule in file " + rte.fOutput.getName());
+			System.out.println("Saving the schedule.txt in file " + rte.fOutput.getName());
 			try (final PrintWriter pw = new PrintWriter(rte.fOutput.getAbsolutePath(), StandardCharsets.UTF_8)) {
 				pw.println(rteState.schedule);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
-		//prepare the print of schedule by increasing time
-		System.out.println("Final schedule: " + Arrays.toString(rteState.getOrderedSchedule()));
+		//prepare the print of schedule.txt by increasing time
+		System.out.println("Final schedule.txt: " + Arrays.toString(rteState.getOrderedSchedule()));
 		System.out.println("RTE execution statistics (ns): " + rteState.executionTimeRTEns.getSum());
 		System.out.println("RTEinit execution statistics (ns): " + rteState.executionTimeRTEinitNs.getSum());
 		System.out.println("RTEdecision execution statistics (ns): " + rteState.executionTimeRTEDecisionNs.getSum());
@@ -811,13 +835,13 @@ public class STNURTE {
 	}
 
 	/**
-	 * Verifies that the given schedule does not violate any constraints.
+	 * Verifies that the given schedule.txt does not violate any constraints.
 	 *
-	 * @param schedule              the schedule that has to be checked. It is assumed that if a node is not in the schedule, its time is
+	 * @param schedule              the schedule.txt that has to be checked. It is assumed that if a node is not in the schedule.txt, its time is
 	 *                              {@link Constants#INT_NULL}.
 	 * @param contingentStrictCheck false if contingent node value must not verified.
 	 *
-	 * @return true if the given schedule does not violate any constraints, false otherwise.
+	 * @return true if the given schedule.txt does not violate any constraints, false otherwise.
 	 */
 	public boolean isAViableSchedule(@Nonnull Object2IntMap<LabeledNode> schedule, boolean contingentStrictCheck) {
 		for (final STNUEdge edge : this.g.getEdges()) {
@@ -827,14 +851,14 @@ public class STNURTE {
 			final int sourceTime = schedule.getInt(source);
 			if (sourceTime == Constants.INT_NULL) {
 				if (Debug.ON) {
-					LOG.info("Node " + source + " has no an execution time. It is not in the schedule.");
+					LOG.info("Node " + source + " has no an execution time. It is not in the schedule.txt.");
 				}
 				return false;
 			}
 			final int destTime = schedule.getInt(dest);
 			if (destTime == Constants.INT_NULL) {
 				if (Debug.ON) {
-					LOG.info("Node " + dest + " has no an execution time. It is not in the schedule.");
+					LOG.info("Node " + dest + " has no an execution time. It is not in the schedule.txt.");
 				}
 				return false;
 			}
@@ -867,7 +891,7 @@ public class STNURTE {
 				final int cTime = schedule.getInt(C);
 				if (cTime == Constants.INT_NULL) {
 					if (Debug.ON) {
-						LOG.info("Node " + C + " has no an execution time. It is not in the schedule.");
+						LOG.info("Node " + C + " has no an execution time. It is not in the schedule.txt.");
 					}
 					return false;
 				}
@@ -900,7 +924,7 @@ public class STNURTE {
 	/**
 	 * Real-Time Execution (RTE)
 	 * <p>
-	 * Considering the current network, {@link #g}, it determines and executes a schedule {@link RTEState#schedule} for it. If the execution cannot be
+	 * Considering the current network, {@link #g}, it determines and executes a schedule.txt {@link RTEState#schedule} for it. If the execution cannot be
 	 * determined or the execution has any problem, it throws an IllegalStateException with a status message.
 	 * </p>
 	 *
@@ -909,11 +933,11 @@ public class STNURTE {
 	 * @param environmentStrategy strategy that the environment uses to choice the duration of contingent links. If null,
 	 *                            {@link StrategyEnum#RANDOM_EXECUTION_STRATEGY} is chosen.
 	 *
-	 * @return the state of the execution. Inside such an object, field `schedule` is the map (node, execution time) representing the scheduling executed.
+	 * @return the state of the execution. Inside such an object, field `schedule.txt` is the map (node, execution time) representing the scheduling executed.
 	 *
-	 * @throws IllegalStateException if the schedule cannot be determined.
+	 * @throws IllegalStateException if the schedule.txt cannot be determined.
 	 */
-	public RTEState rte(@Nullable Strategy rtedStrategy, @Nullable Strategy environmentStrategy)
+	public RTEState rte(@Nullable Strategy rtedStrategy, @Nullable Strategy environmentStrategy, Map<LabeledNode, Integer> sample)
 	throws IllegalStateException {
 		final StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
@@ -933,7 +957,11 @@ public class STNURTE {
 			//Some nodes are un-executed
 			stopWatch.suspend();
 			final RTED rted = rteDecision(state); //rted is not null for sure
-			final NodeOccurrence ctgs = observe(state, rted); //observe occurrence of contingent nodes
+			final NodeOccurrence ctgs = observeSample(state, rted, sample); //observe occurrence of contingent nodes
+			if (ctgs.label == -1) {
+				state.finished = false;
+				return state;
+			}
 			rteUpdate(state, rted, ctgs);
 			stopWatch.resume();
 			if (Debug.ON) {
@@ -950,6 +978,7 @@ public class STNURTE {
 			}
 		}
 		state.executionTimeRTEns.addValue(stopWatch.getNanoTime());
+		state.finished = true;
 		return state;
 	}
 
@@ -1283,6 +1312,109 @@ public class STNURTE {
 		return obs;
 	}
 
+	private NodeOccurrence observeSample(@Nonnull RTEState state, @Nonnull RTED rted, @Nonnull Map<LabeledNode, Integer> sample) throws IllegalStateException {
+		final StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+		if (Debug.ON) {
+			LOG.finer("observe started.");
+		}
+		if (state.activeContingentLink.isEmpty()) {
+			if (rted.isWait()) {
+				throw new IllegalStateException("Waiting contingent node but there is no contingent node to execute.");
+			}
+			final NodeOccurrence obs = new NodeOccurrence(rted.executionTime, ObjectSets.emptySet());
+			if (Debug.ON) {
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("Observation done: " + obs);
+				}
+				LOG.finer("observe finished.");
+			}
+			state.executionTimeObserveNs.addValue(stopWatch.getNanoTime());
+			return obs;
+		}
+
+		int earliestFinishTime = Constants.INT_POS_INFINITE;
+		final ObjectSet<NodeWithTimeInterval> contingentsWithTI = new ObjectArraySet<>();
+		final Map<LabeledNode, Integer> finishTimes = new HashMap<>();
+
+		for (final ContingentLink link : state.activeContingentLink.values()) {
+			final int timeA = state.schedule.getInt(link.activationNode);
+			String name = link.contingentNode.getName();
+			int finishTime = 0;
+			for (Node nodee : sample.keySet()) {
+				// Check if the name of the current node matches the name from contingentNode
+				if (nodee.getName().equals(name)) {
+					// Once a match is found, get the corresponding value
+					finishTime = timeA + sample.get(nodee);
+					// You can now use finishTime here
+					break; // Exit the loop once the match is found
+				}
+			}
+			if (finishTime < earliestFinishTime) {
+				earliestFinishTime = finishTime;
+			}
+			if (earliestFinishTime > state.timeWindow.get(link.contingentNode).getUpper()) {
+				return new NodeOccurrence(rted.executionTime, Collections.singleton(link.contingentNode), -1);
+			}
+			finishTimes.put(link.contingentNode, finishTime);
+			contingentsWithTI.add(new NodeWithTimeInterval(new TimeInterval(finishTime, finishTime), link.contingentNode));
+		}
+
+		final TimeInterval allowedTI = new TimeInterval(earliestFinishTime, earliestFinishTime);
+		final NodeEnabledInTimeInterval candidates = new NodeEnabledInTimeInterval(allowedTI, contingentsWithTI);
+
+		if (Debug.ON) {
+			if (LOG.isLoggable(Level.FINEST)) {
+				LOG.finest("Data for the environment." + "\n\tAllowed time instant interval: " + allowedTI + "\n\tPossible contingent nodes: " + contingentsWithTI);
+			}
+		}
+
+		stopWatch.suspend();
+		final NodeOccurrence environmentChoice = state.environmentStrategy.choice(candidates);
+		stopWatch.resume();
+		final int chosenInstant = environmentChoice.occurrenceTime;
+		final Set<LabeledNode> chosenContingent = environmentChoice.nodes;
+
+		if (!rted.isWait() && chosenInstant > rted.executionTime) {
+			final NodeOccurrence obs = new NodeOccurrence(rted.executionTime, ObjectSets.emptySet());
+			if (Debug.ON) {
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("Since chosen execution time " + chosenInstant + " is greater than RTED time " + Constants.formatInt(rted.executionTime) +
+							", no contingent time point occur: " + obs);
+				}
+				LOG.finer("observe finished.");
+			}
+			state.executionTimeObserveNs.addValue(stopWatch.getNanoTime());
+			return obs;
+		}
+
+		if (this.strictEnvironmentCheck) {
+			if (chosenInstant < allowedTI.getLower() || chosenInstant > allowedTI.getUpper()) {
+				throw new IllegalStateException("Environment chose a wrong time instant " + Constants.formatInt(chosenInstant) + ".\nAllowed time instant interval: " + allowedTI);
+			}
+			for (final LabeledNode node : chosenContingent) {
+				if (finishTimes.get(node) != chosenInstant) {
+					throw new IllegalStateException("Environment chose a wrong node " + node + " at time " + chosenInstant);
+				}
+			}
+		}
+
+		if (Debug.ON) {
+			if (LOG.isLoggable(Level.FINER)) {
+				LOG.finer("Chosen instant: " + Constants.formatInt(chosenInstant) + "\n\tChosen contingents: " + chosenContingent);
+			}
+		}
+
+		final NodeOccurrence obs = new NodeOccurrence(chosenInstant, chosenContingent);
+		if (Debug.ON) {
+			if (LOG.isLoggable(Level.FINEST)) {
+				LOG.finest("Observation done: " + obs);
+			}
+		}
+		state.executionTimeObserveNs.addValue(stopWatch.getNanoTime());
+		return obs;
+	}
+
 	/**
 	 * Given the current state of an execution, it makes a decision (RTED) about the next step.
 	 * <p>
@@ -1428,6 +1560,9 @@ public class STNURTE {
 		rteState.uONode.clear();
 		rteState.uONode.addAll(this.oNode);
 		final LabeledNode Z = this.g.getZ();
+		for (final LabeledNode node : this.cNode) {
+			rteState.timeWindow.put(node, new TimeInterval(0));
+		}
 		for (final LabeledNode node : this.oNode) {
 			if (node == Z) {
 				if (Debug.ON) {
@@ -1668,6 +1803,11 @@ public class STNURTE {
 			}
 			final LabeledNode destination = this.g.getDest(edge);
 			assert destination != null;
+			if (destination.isContingent()) {
+				final int edgeValue = edge.getValue();
+				final int upper = Constants.sumWithOverflowCheck(executionTime, edgeValue);
+				state.updateUpperBound(destination, upper);
+			}
 			if (destination.isContingent() || state.schedule.getInt(destination) != Constants.INT_NULL) {
 				continue;
 			}

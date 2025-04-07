@@ -28,17 +28,14 @@ import org.xml.sax.SAXException;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serial;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -206,7 +203,7 @@ public class PSTN {
 	 * The input file containing the STN graph in GraphML format.
 	 */
 	@Argument(usage = "file_name must be the input STNU graph in GraphML format.", metaVar = "file_name")
-	private File fInput;
+	public File fInput;
 
 	/**
 	 * Output file where to write the XML representing the minimal STN graph.
@@ -255,7 +252,7 @@ public class PSTN {
 	/**
 	 * Used by {@link #buildApproxSTNU()}
 	 */
-	private OptimizationEngine optimizationEngine = new MatLabEngine();
+	private OptimizationEngine optimizationEngine;
 
 	/**
 	 * Utility map that return the edge containing the upper-case value of a contingent link given the contingent timepoint.
@@ -335,8 +332,8 @@ public class PSTN {
 			 */
 			final double M2 = Math.pow((x + y) / 2.0, 2.0);
 			final double S2 = Math.pow((y - x) / 2.0 * sigmaFactor, 2.0);
-			final double mu = Math.log(M2 / Math.sqrt(M2 + S2));
-			final double sigma = Math.sqrt(Math.log(1 + S2 / M2));
+			double mu = Math.log(M2 / Math.sqrt(M2 + S2));
+			double sigma = Math.sqrt(Math.log(1 + S2 / M2));
 			/*
 			 * "A lognormal approximation of activity duration in PERT using two time estimates" paper proposal
 			 */
@@ -350,6 +347,9 @@ public class PSTN {
 					          + ", the log-normal distribution determined is location: " + mu + " and scale: " + sigma);
 				}
 			}
+			mu = ctg.getLogNormalDistribution().getLocation();
+			sigma = ctg.getLogNormalDistribution().getScale();
+
 			final LogNormalDistributionParameter logNDist = new LogNormalDistributionParameter(mu, sigma);
 			ctg.setLogNormalDistributionParameter(logNDist);
 		}
@@ -500,7 +500,7 @@ public class PSTN {
 			e = LCEdge.get(ctg);
 			int newX = (int) Math.round(Math.exp(logNormale.getLocation() - stdDevFactorized));
 			if (newX <= 0) {
-				throw new IllegalStateException("The new bound for LC edge " + e + " is negative: " + newX);
+				newX = 0;
 			}
 			if (newX == (-newNegY)) {
 				newX--;
@@ -588,7 +588,7 @@ public class PSTN {
 				status.consistency = true;
 				status.finished = stnu1Status.finished;
 
-				status.approximatingSTNU = stnu;
+				status.approximatingSTNU = stnu1;
 				return status;
 			}
 			//SRNCInfo already contains all the information determined by the fec=tchEdgeInfo procedure in the pseudocode of the TIME 2024 paper
@@ -817,7 +817,7 @@ public class PSTN {
 	 * @param optimizationEngine the new matLabEngine to use.
 	 */
 	public void setOptimizationEngine(OptimizationEngine optimizationEngine) {
-		this.optimizationEngine = new MatLabEngine();
+		this.optimizationEngine = optimizationEngine;
 	}
 
 	/**
@@ -1378,7 +1378,7 @@ public class PSTN {
 		}
 	}
 
-	private boolean manageParameters(String[] args) {
+	public boolean manageParameters(String[] args) {
 		final CmdLineParser parser = new CmdLineParser(this);
 		try {
 			// parse the arguments.
@@ -1430,80 +1430,254 @@ public class PSTN {
 		return true;
 	}
 
-	public static void main(String[] args) {
+	// modify how you want
+	public static void main(String[] args) throws WellDefinitionException {
+
 		PSTN pstn = new PSTN();
 		if (!pstn.manageParameters(args)) {
 			return;
 		}
-		pstn.optimizationEngine = new MatLabEngine();
-		pstn.rangeFactor = 0.7;
+		File fOutput = pstn.getfOutput();
+		pstn.rangeFactor = 3.3;
 		System.out.println(pstn.getVersionAndCopyright());
-		if (Debug.ON) {
-			if (LOG.isLoggable(Level.FINER)) {
-				LOG.info("Start...");
-			}
-		}
-		if (Debug.ON) {
-			if (LOG.isLoggable(Level.FINER)) {
-				LOG.info("Parameters ok!");
-			}
-		}
 		System.out.println("Starting execution...");
 		if (pstn.versionReq) {
 			return;
 		}
 
-		if (Debug.ON) {
-			LOG.info("Loading graph...");
-		}
 		final TNGraphMLReader<STNUEdge> graphMLReader = new TNGraphMLReader<>();
 		try {
-			// Load the graph
-			pstn.setG(graphMLReader.readGraph(pstn.fInput, STNUEdgeInt.class));
-			pstn = new PSTN(graphMLReader.readGraph(pstn.fInput, STNUEdgeInt.class), 1000, 0.7, new MatLabEngine());
+			pstn = new PSTN(graphMLReader.readGraph(pstn.fInput, STNUEdgeInt.class),  1000, 0.3, new MatLabEngine());
+			pstn.setfOutput(fOutput);
 		} catch (IOException | ParserConfigurationException | SAXException e) {
 			throw new RuntimeException(e);
 		}
 		if (Debug.ON) {
 			LOG.info("PSTN Graph loaded!\nNow, it is time to check it...");
 		}
+		Pattern pattern = Pattern.compile("^(\\d+_\\d+)_(\\d+)_(start|finish)$");
 
+		Map<String, Set<String>> allNodes = new HashMap<>();
+		for (LabeledNode labeledNode : pstn.g.getVertices()) {
+			String name = labeledNode.getName();
+			Matcher matcher = pattern.matcher(name);
+
+			if (matcher.matches()) {
+				String key = matcher.group(1);  // Extract i_j
+				String value = matcher.group(2); // Extract k
+
+				// Store in allNodes map
+				allNodes.computeIfAbsent(key, k -> new HashSet<>()).add(value);
+			}
+		}
 		final PSTN.PSTNCheckStatus status;
 
-		// Build the Approximate STNU
 		status = pstn.buildApproxSTNU();
 
-		// Check status
-//		if (status.finished) {
-//			System.out.println("Checking finished!");
-//			if (status.f != null) {
-//				System.out.println("The given PSTN is convertible!");
-//			} else {
-//				System.out.println("The given PSTN is NOT convertible!");
-//			}
-//		} else {
-//			System.out.println("Checking has not been finished!");
-//			System.out.println("Details: " + status);
-//		}
-		System.out.println(status.approximatingSTNU.getCheckStatus());
-		status.approximatingSTNU.setfOutput(new File("output"));
-		// Output probability mass and the result graph location
-		if (status.approximatingSTNU.getG() != null) {
-			System.out.println("Saving the result in file " + status.approximatingSTNU.getfOutput().getName());
-			final TNGraphMLWriter writer = new TNGraphMLWriter(null);
-			try {
-				writer.save(status.approximatingSTNU.getG(), status.approximatingSTNU.getfOutput());
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
+		if (status.finished) {
+			System.out.println("Checking finished!");
+			if (status.exitFlag >= 1) {
+				System.out.println("The given PSTN is convertible!");
+				STNU stnu = status.approximatingSTNU;
+				for (int i = 0; i < 100; i++) {
+					Map<LabeledNode, Integer> sample = new HashMap<>();
+					Random rng = new Random();
+					List<LabeledNode> less = new ArrayList<>();
+					List<LabeledNode> more = new ArrayList<>();
+					for (LabeledNode node : stnu.getG().getNodesOrdered()) {
+						double stdNormal = rng.nextGaussian();
+						LogNormalDistributionParameter logN = node.getLogNormalDistribution();
+						if (logN != null) {
+							double mean = logN.getLocation();
+							double scale = logN.getScale();
+							int value = (int) Math.exp(scale * stdNormal + mean);
+							sample.put(node, value);
+							if (value < stnu.getLowerCaseEdgesMap().get(node).getLabeledValue()) {
+								less.add(node);
+							}
+							if (value > -stnu.getUpperCaseEdgesMap().get(node).getLabeledValue()) {
+								more.add(node);
+							}
+						}
+					}
+					STNU cloneSTNU = new STNU(stnu);
+					cloneSTNU.dynamicControllabilityCheck(STNU.CheckAlgorithm.Morris2014Dispatchable);
+//				stnu.applyMinDispatchableESTNU();
+					STNURTE rte = new STNURTE(cloneSTNU.getG(), true);
+					final STNURTE.Strategy rtedStrategy = STNURTE.StrategyEnum.FIRST_NODE_EARLY_EXECUTION_STRATEGY;
+					final STNURTE.Strategy environmentStrategy = STNURTE.StrategyEnum.LATE_EXECUTION_STRATEGY;
+					STNURTE.RTEState rteState = rte.rte(rtedStrategy, environmentStrategy, sample);
+					while (!rteState.finished) {
+						Object2IntOpenHashMap<LabeledNode> schedule = rteState.schedule;
+						STNU stnu1 = process(schedule, stnu, allNodes);
+//						cloneSTNU = new STNU(stnu);
+						stnu1.dynamicControllabilityCheck(STNU.CheckAlgorithm.Morris2014Dispatchable);
+						rte = new STNURTE(stnu1.getG(), true);
+						rteState = rte.rte(rtedStrategy, environmentStrategy, sample);
+					}
+					try (BufferedWriter writer = new BufferedWriter(new FileWriter("schedule.txt"))) {
+						// Iterate through the entries of the schedule.txt map
+						for (Map.Entry<LabeledNode, Integer> entry : rteState.schedule.entrySet()) {
+							LabeledNode key = entry.getKey();
+							Integer value = entry.getValue();
 
-			// New Output: Probability Mass and Output Location
-			System.out.println("Result: CONVERTIBLE");
-			System.out.println("ProbabilityMass: " + status.probabilityMass); // Assuming a method to calculate
-			System.out.println("OutputGraph: " + status.approximatingSTNU.getfOutput().getAbsolutePath());
+							// Write the key's name and value to the file, in the format key.getName(), value
+							writer.write(key.getName() + "," + value);
+							writer.newLine();  // Move to the next line after writing each pair
+						}
+						System.out.println("Schedule has been saved to " + "schedule.txt");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					System.out.println(rteState);
+				}
+			}else{
+					System.out.println("The given PSTN is NOT convertible!");
+				}
+				System.out.println("Probability mass: " + status.probabilityMass);
+				System.out.println("Details: " + status);
+				if (pstn.fOutput != null) {
+					System.out.println("Saving the result in file " + pstn.fOutput.getName());
+					final TNGraphMLWriter writer = new TNGraphMLWriter(null);
+					try {
+						writer.save(status.approximatingSTNU.getG(), pstn.fOutput);
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
 		} else {
-			System.out.println("AAAAAAA");
-			System.out.println("Result: NOT_CONVERTIBLE");
+			System.out.println("Checking has not been finished!");
+			System.out.println("Details: " + status);
 		}
+	}
+	public static STNU process(Object2IntOpenHashMap<LabeledNode> schedule, STNU stnu, Map<String, Set<String>> allNodes) {
+		Set<String> startNodes = new HashSet<>();
+		Set<String> finishNodes = new HashSet<>();
+		Set<String> completeNodes = new HashSet<>();
+		Set<String> startOnlyNodes = new HashSet<>();
+		Pattern pattern = Pattern.compile("^(\\d+_\\d+)_(\\d+)_(start|finish)$");
+
+		// Process nodes in the schedule
+		for (LabeledNode node : schedule.keySet()) {
+			String name = node.getName();
+			Matcher matcher = pattern.matcher(name);
+
+			if (matcher.matches()) {
+				String key = matcher.group(1); // Extract i_j
+				String job = matcher.group(2); // Extract k
+				String type = matcher.group(3); // start or finish
+
+				if (type.equals("start")) {
+					startNodes.add(key + "_" + job);
+					if (job.equals("0") || job.equals("11")) {
+						finishNodes.add(key + "_" + job);
+					}
+				} else {
+					finishNodes.add(key + "_" + job);
+				}
+			}
+		}
+
+		// Identify complete nodes and start-only nodes
+		for (String node : startNodes) {
+			if (finishNodes.contains(node)) {
+				completeNodes.add(node); // Has both start and finish
+			} else {
+				startOnlyNodes.add(node); // Only has start
+			}
+		}
+
+		// Prepare the completed and ongoing node mappings
+		HashMap<String, Set<String>> completed = new HashMap<>();
+		HashMap<String, Set<String>> ongoing = new HashMap<>();
+		Pattern patternTwo = Pattern.compile("^(\\d+_\\d+)_(\\d+)$");
+
+		// Process complete nodes
+		for (String node : completeNodes) {
+			Matcher mymatcher = patternTwo.matcher(node);
+			if (mymatcher.matches()) {  // Ensure the match was successful
+				String key = mymatcher.group(1); // Extract i_j
+				String job = mymatcher.group(2); // Extract k
+				completed.computeIfAbsent(key, k -> new HashSet<>()).add(job);
+			}
+		}
+
+		// Process ongoing nodes (start-only nodes)
+		for (String node : startOnlyNodes) {
+			Matcher mymatcher = patternTwo.matcher(node);
+			if (mymatcher.matches()) {  // Ensure the match was successful
+				String key = mymatcher.group(1); // Extract i_j
+				String job = mymatcher.group(2); // Extract k
+				ongoing.computeIfAbsent(key, k -> new HashSet<>()).add(job);
+			}
+		}
+		int completedCount = 0;
+		HashMap<String, Set<String>> fullyCompleted = new HashMap<>();
+		for (String node : completed.keySet()) {
+			if (completed.get(node).size() == 12) {
+				completedCount++;
+			}
+		}
+		TNGraph stnu1 = new TNGraph("new graph", STNUEdgeInt.class);
+		for (LabeledNode node : stnu.getG().getVertices()) {
+			if (node.getName().equals("INITIAL_EVENT")) {
+				stnu1.addVertex(node);
+			}
+			else {
+				String name = node.getName().trim();  // Remove any leading/trailing spaces
+				System.out.println("Checking: '" + name + "'"); // Debugging output
+
+				String[] parts = name.split("_"); // Split by "_"
+
+				if (parts.length == 4 && (parts[3].equals("start") || parts[3].equals("finish"))) {
+					String id = parts[0] + "_" + parts[1];  // Extract "i_j"
+					String job = parts[2];                  // Extract "k"
+					String type = parts[3];                 // "start" or "finish"
+
+					System.out.println("Matched: ID=" + id + ", Job=" + job + ", Type=" + type);
+
+					if (!completed.containsKey(id) && !ongoing.containsKey(id)) {
+						stnu1.addVertex(node);
+					}
+				}
+			}
+		}
+		for (Edge edge : stnu.getG().getEdges()) {
+			if (edge.getConstraintType().equals(ConstraintType.derived)) continue;
+			if (stnu.getG().getSource(edge.getName()).getName().equals("INITIAL_EVENT")) {
+				String name = stnu.getG().getDest(edge.getName()).getName().trim();
+				String[] parts = name.split("_");
+				if (!completed.containsKey(parts[0] +"_"+parts[1]) && !ongoing.containsKey(parts[0] +"_"+parts[1])) {
+					stnu1.addEdge(edge, stnu.getG().getSource(edge.getName()), stnu.getG().getDest(edge.getName()));
+				}
+			}
+			else if (stnu.getG().getDest(edge.getName()).getName().equals("INITIAL_EVENT")) {
+				String name = stnu.getG().getSource(edge.getName()).getName().trim();
+				String[] parts = name.split("_");
+				if (!completed.containsKey(parts[0] +"_"+parts[1]) && !ongoing.containsKey(parts[0] +"_"+parts[1])) {
+					stnu1.addEdge(edge, stnu.getG().getSource(edge.getName()), stnu.getG().getDest(edge.getName()));
+
+				}
+			}
+			else {
+				String name1 = stnu.getG().getSource(edge.getName()).getName().trim();
+				String[] parts1 = name1.split("_");
+				String name2 = stnu.getG().getDest(edge.getName()).getName().trim();
+				String[] parts2 = name2.split("_");
+				if (!completed.containsKey(parts1[0] +"_"+parts1[1]) && !ongoing.containsKey(parts1[0] +"_"+parts1[1])) {
+					if (!completed.containsKey(parts2[0] +"_"+parts2[1]) && !ongoing.containsKey(parts2[0] +"_"+parts2[1])) {
+						stnu1.addEdge(edge, stnu.getG().getSource(edge.getName()), stnu.getG().getDest(edge.getName()));
+					}
+				}
+			}
+		}
+		STNU finalSTNU = new STNU(stnu1);
+
+		// Prepare the final result map
+		Object2ObjectMap<String, HashMap> result = new Object2ObjectArrayMap<>();
+		result.put("completeNodes", completed);
+		result.put("startOnlyNodes", ongoing);
+
+		return finalSTNU;
 	}
 }
