@@ -13,7 +13,6 @@ import it.univr.di.cstnu.algorithms.STN.STNCheckStatus;
 import it.univr.di.cstnu.graph.Edge.ConstraintType;
 import it.univr.di.cstnu.graph.*;
 import it.univr.di.cstnu.graph.STNUEdge.CaseLabel;
-import it.univr.di.cstnu.matlabplugin.MatLabEngine;
 import it.univr.di.cstnu.util.LogNormalDistributionParameter;
 import it.univr.di.cstnu.util.OptimizationEngine;
 import it.univr.di.cstnu.visualization.CSTNUStaticLayout;
@@ -21,21 +20,20 @@ import it.univr.di.labeledvalue.ALabelAlphabet.ALetter;
 import it.univr.di.labeledvalue.Constants;
 import it.univr.di.labeledvalue.Label;
 import org.apache.commons.math3.distribution.NormalDistribution;
-import org.kohsuke.args4j.*;
-import org.xml.sax.SAXException;
-
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serial;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -138,7 +136,7 @@ public class PSTN {
 			}
 			if (executionTimeNS != Constants.INT_NULL) {
 				sb.append("The global execution time has been ").append(executionTimeNS).append(" ns (~")
-					.append((executionTimeNS / 1E9)).append(" s.)");
+						.append((executionTimeNS / 1E9)).append(" s.)");
 			}
 			if (this.probabilityMass >= 0) {
 				sb.append("Found an approximating STNU that captures ").append(this.probabilityMass).append(" of the contingent possible values.");
@@ -327,13 +325,8 @@ public class PSTN {
 			final int x = LCEdge.get(ctg).getLabeledValue() * expanderFactor;
 			LCEdge.get(ctg).setLabeledValue(ctg.getALetter(), x, false);
 
-			/*
-			 * Luke proposal
-			 */
-			final double M2 = Math.pow((x + y) / 2.0, 2.0);
-			final double S2 = Math.pow((y - x) / 2.0 * sigmaFactor, 2.0);
-			double mu = Math.log(M2 / Math.sqrt(M2 + S2));
-			double sigma = Math.sqrt(Math.log(1 + S2 / M2));
+			double mu = ctg.getLogNormalDistribution().getLocation() + Math.log(expanderFactor);
+			double sigma = ctg.getLogNormalDistribution().getScale();
 			/*
 			 * "A lognormal approximation of activity duration in PERT using two time estimates" paper proposal
 			 */
@@ -344,12 +337,9 @@ public class PSTN {
 			if (Debug.ON) {
 				if (LOG.isLoggable(Level.FINER)) {
 					LOG.finer("For contingent link " + UCEdge.get(ctg) + "; " + LCEdge.get(ctg)
-					          + ", the log-normal distribution determined is location: " + mu + " and scale: " + sigma);
+							+ ", the log-normal distribution determined is location: " + mu + " and scale: " + sigma);
 				}
 			}
-			mu = ctg.getLogNormalDistribution().getLocation();
-			sigma = ctg.getLogNormalDistribution().getScale();
-
 			final LogNormalDistributionParameter logNDist = new LogNormalDistributionParameter(mu, sigma);
 			ctg.setLogNormalDistributionParameter(logNDist);
 		}
@@ -483,9 +473,9 @@ public class PSTN {
 			if (Debug.ON) {
 				if (LOG.isLoggable(Level.FINEST)) {
 					LOG.finest(
-						"New bounds for UC edge " + e + ":" + "\nthis.rangeFactor : " + this.rangeFactor + "\nlogNormale.location: " +
-						logNormale.getLocation() +
-						"\nlogNormale.scale: " + logNormale.getScale() + "\nstdDevFactorized: " + stdDevFactorized + "\nNew Upper bound: " + newNegY);
+							"New bounds for UC edge " + e + ":" + "\nthis.rangeFactor : " + this.rangeFactor + "\nlogNormale.location: " +
+									logNormale.getLocation() +
+									"\nlogNormale.scale: " + logNormale.getScale() + "\nstdDevFactorized: " + stdDevFactorized + "\nNew Upper bound: " + newNegY);
 				}
 				if (LOG.isLoggable(Level.FINER)) {
 					LOG.finer("New bounds for UC edge " + e + ":" + newNegY);
@@ -499,10 +489,10 @@ public class PSTN {
 
 			e = LCEdge.get(ctg);
 			int newX = (int) Math.round(Math.exp(logNormale.getLocation() - stdDevFactorized));
-			if (newX <= 0) {
-				newX = 0;
+			if (newX < 0) {
+				throw new IllegalStateException("The new bound for LC edge " + e + " is negative: " + newX);
 			}
-			if (newX == (-newNegY)) {
+			if (newX == (-newNegY) && newX != 0) {
 				newX--;
 			}
 			if (Debug.ON) {
@@ -545,8 +535,8 @@ public class PSTN {
 					status.partialExecutionTimeNS = 0;
 					if (LOG.isLoggable(Level.INFO)) {
 						LOG.info(
-							"Found solution without solving the optimization problem. All contingent links have bounds that include " + status.probabilityMass +
-							" probability mass.");
+								"Found solution without solving the optimization problem. All contingent links have bounds that include " + status.probabilityMass +
+										" probability mass.");
 					}
 				} else {
 					//determine the conjuncted probability mass before returning
@@ -559,18 +549,18 @@ public class PSTN {
 							continue;
 						}
 						final org.apache.commons.math3.distribution.LogNormalDistribution logNormal =
-							new org.apache.commons.math3.distribution.LogNormalDistribution(logNormaleParam.getLocation(), logNormaleParam.getScale());
+								new org.apache.commons.math3.distribution.LogNormalDistribution(logNormaleParam.getLocation(), logNormaleParam.getScale());
 						final double y = -e.getLabeledValue();
-						final double cdfU = logNormal.cumulativeProbability(y);
+						final double cdfU = logNormal.cumulativeProbability(y - 0.01);
 
 						e = LCEdge.get(ctg);
-						final double cdfL = logNormal.cumulativeProbability(e.getLabeledValue());
+						final double cdfL = logNormal.cumulativeProbability(e.getLabeledValue() + 0.01);
 						final double probMass = cdfU - cdfL;
 						probabilityMass *= probMass;
 						if (Debug.ON) {
 							if (LOG.isLoggable(Level.FINEST)) {
 								LOG.finest("For the ctg link ending in " + ctg + " the bounds are [" + e.getLabeledValue() + ", " + y +
-								           "] and the cumulative probability values are [" + cdfL + ", " + cdfU + "]");
+										"] and the cumulative probability values are [" + cdfL + ", " + cdfU + "]");
 							}
 							if (LOG.isLoggable(Level.FINER)) {
 								LOG.finer("The probability mass of contingent link ending in " + ctg + ": " + probMass);
@@ -613,7 +603,7 @@ public class PSTN {
 			//and associate their indices with contingent node
 			if (LOG.isLoggable(Level.FINER)) {
 				LOG.finer("Found the negative semi-reducible cycle: " + negCycle.srnExpanded() +
-				          "\nStart to minimize the contingent ranges to solve the negative cycle.");
+						"\nStart to minimize the contingent ranges to solve the negative cycle.");
 			}
 
 			startMinimization = Instant.now();
@@ -662,7 +652,7 @@ public class PSTN {
 				A[0][i] = -nL; //Since matLabEngine.nonLinearOptimization solve a minimization problem, I have to invert all the coefficients
 				A[0][i + 1] = nU;
 				partialSumConstantCoefficient +=
-					(nL * x[i] - nU * x[i + 1]); //Since nonLinearOptimization solve a minimization problem, I have to invert all the coefficients
+						(nL * x[i] - nU * x[i + 1]); //Since nonLinearOptimization solve a minimization problem, I have to invert all the coefficients
 				final LogNormalDistributionParameter logNormalPar = logNormalParameterWithSTNUNode.get(stnuG.getNode(ctg.getName()));
 				mu[j] = logNormalPar.getLocation();
 				sigma[j] = logNormalPar.getScale();
@@ -680,7 +670,7 @@ public class PSTN {
 			if (Debug.ON) {
 				if (LOG.isLoggable(Level.FINER)) {
 					LOG.finer("MatLab parameters: Matrix A: " + Arrays.toString(A[0]) + "\nb: " +
-					          Arrays.toString(b) + "\nx: " + Arrays.toString(x) + "\nmu: " + Arrays.toString(mu) + "\nsigma: " + Arrays.toString(sigma));
+							Arrays.toString(b) + "\nx: " + Arrays.toString(x) + "\nmu: " + Arrays.toString(mu) + "\nsigma: " + Arrays.toString(sigma));
 				}
 			}
 			try {
@@ -694,10 +684,10 @@ public class PSTN {
 			status.exitFlag = result.exitFlag();
 			if (result.exitFlag() < 1) {
 				LOG.severe(
-					"MatLab was not able to solve the problem relative to the following SRNC: " + negCycle
-					+ "\nMatrix A: " + Arrays.toString(A[0]) + "\nb: " +
-					Arrays.toString(b) + "\nx: " + Arrays.toString(x) + "\nmu: " + Arrays.toString(mu) + "\nsigma: " + Arrays.toString(sigma) + "\nresult: " +
-					result);
+						"MatLab was not able to solve the problem relative to the following SRNC: " + negCycle
+								+ "\nMatrix A: " + Arrays.toString(A[0]) + "\nb: " +
+								Arrays.toString(b) + "\nx: " + Arrays.toString(x) + "\nmu: " + Arrays.toString(mu) + "\nsigma: " + Arrays.toString(sigma) + "\nresult: " +
+								result);
 				status.executionTimeNS = Duration.between(startBuild, Instant.now()).toNanos();
 				status.consistency = false;
 				status.probabilityMass = -1;
@@ -717,9 +707,9 @@ public class PSTN {
 				final int lowerBound = (int) Math.ceil(newVals[i]);
 				final int upperBound = (int) newVals[i + 1];
 
-				if (upperBound <= lowerBound || lowerBound < 0) {
+				if (upperBound < lowerBound || lowerBound < 0) {
 					LOG.severe(
-						"The new bounds for contingent link ending in " + ctg + " is not an admissible solution: [" + lowerBound + ", " + upperBound + "]");
+							"The new bounds for contingent link ending in " + ctg + " is not an admissible solution: [" + lowerBound + ", " + upperBound + "]");
 					status.executionTimeNS = Duration.between(startBuild, Instant.now()).toNanos();
 					status.consistency = false;
 					status.probabilityMass = -1;
@@ -735,7 +725,7 @@ public class PSTN {
 				if (Debug.ON) {
 					if (LOG.isLoggable(Level.FINER)) {
 						LOG.finer(
-							"New range for contingent link #" + i / 2 + ", relative to " + ctg.getName() + ": [" + lowerBound + ", " + upperBound + "]");
+								"New range for contingent link #" + i / 2 + ", relative to " + ctg.getName() + ": [" + lowerBound + ", " + upperBound + "]");
 					}
 				}
 			}
@@ -810,7 +800,7 @@ public class PSTN {
 	 * @return the matLabEngine used by this class.
 	 */
 	public OptimizationEngine getOptimizationEngine() {
-		return this.optimizationEngine;
+		return optimizationEngine;
 	}
 
 	/**
@@ -856,7 +846,7 @@ public class PSTN {
 		// I use a non-static method for having a general method that prints the right name for each derived class.
 		try {
 			return getClass().getName() + " " + getClass().getDeclaredField("VERSIONandDATE").get(this) +
-			       "\nSPDX-License-Identifier: LGPL-3.0-or-later, Roberto Posenato.\n";
+					"\nSPDX-License-Identifier: LGPL-3.0-or-later, Roberto Posenato.\n";
 
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			throw new IllegalStateException("Not possible exception I think :-)");
@@ -979,14 +969,14 @@ public class PSTN {
 
 			if (initialValue == Constants.INT_NULL && labeledValue == Constants.INT_NULL) {
 				throw new WellDefinitionException(
-					"Contingent edge " + e + " cannot be initialized because it hasn't an initial value neither a lower/upper case value.");
+						"Contingent edge " + e + " cannot be initialized because it hasn't an initial value neither a lower/upper case value.");
 			}
 
 			final STNUEdge eInverted = g.findEdge(d, s);
 			if (eInverted == null) {
 				throw new WellDefinitionException(
-					"Contingent edge " + e + " is alone. The companion contingent edge between " + d.getName() + " and " + s.getName() +
-					" does not exist while it must exist!");
+						"Contingent edge " + e + " is alone. The companion contingent edge between " + d.getName() + " and " + s.getName() +
+								" does not exist while it must exist!");
 			}
 			if (!eInverted.isContingentEdge()) {
 				throw new WellDefinitionException("Edge " + e + " is contingent while the companion edge " + eInverted + " is not contingent!\nIt must be!");
@@ -1021,13 +1011,13 @@ public class PSTN {
 
 					if (lowerCaseValue != Constants.INT_NULL && -initialValue != lowerCaseValue) {
 						throw new WellDefinitionException("Edge " + e + " is contingent with a negative value and the inverted " + eInverted +
-						                                  " already contains a ***different*** lower case value: " + eInverted.getLabeledValueFormatted() +
-						                                  ".");
+								" already contains a ***different*** lower case value: " + eInverted.getLabeledValueFormatted() +
+								".");
 					}
 					if (lowerCaseValue == Constants.INT_NULL && (eInvertedInitialValue <= 0)) {
 						//|| eInvertedInitialValue == Constants.INT_NULL is subsumed by <= 0
 						throw new WellDefinitionException("Edge " + e + " is contingent with a negative value but the inverted " + eInverted +
-						                                  " does not contain a lower case value neither a proper initial value. ");
+								" does not contain a lower case value neither a proper initial value. ");
 					}
 
 					if (lowerCaseValue == Constants.INT_NULL) {
@@ -1049,7 +1039,7 @@ public class PSTN {
 						}
 						if (lowerCaseValue >= -upperCaseValue) {
 							throw new WellDefinitionException(
-								"Edge " + eInverted + " is a lower-case edge but its value equal or greater than upper-case value " + (-upperCaseValue));
+									"Edge " + eInverted + " is a lower-case edge but its value equal or greater than upper-case value " + (-upperCaseValue));
 						}
 					}
 					// In order to speed up the checking, prepare some auxiliary data structure
@@ -1067,12 +1057,12 @@ public class PSTN {
 
 					if (upperCaseValue != Constants.INT_NULL && -initialValue != upperCaseValue) {
 						throw new WellDefinitionException("Edge " + e + " is contingent with a positive value and the inverted " + eInverted +
-						                                  " already contains a ***different*** upper case value: " + eInverted.getLabeledValueFormatted() +
-						                                  ".");
+								" already contains a ***different*** upper case value: " + eInverted.getLabeledValueFormatted() +
+								".");
 					}
 					if (upperCaseValue == Constants.INT_NULL && (eInvertedInitialValue == Constants.INT_NULL || eInvertedInitialValue >= 0)) {
 						throw new WellDefinitionException("Edge " + e + " is contingent with a positive value but the inverted " + eInverted +
-						                                  " does not contain a upper case value neither a proper initial value. ");
+								" does not contain a upper case value neither a proper initial value. ");
 					}
 
 					if (upperCaseValue == Constants.INT_NULL) {
@@ -1094,7 +1084,7 @@ public class PSTN {
 						}
 						if (lowerCaseValue >= -upperCaseValue) {
 							throw new WellDefinitionException(
-								"Edge " + e + " is a lower-case edge but its value equal or greater than upper-case value " + (-upperCaseValue));
+									"Edge " + e + " is a lower-case edge but its value equal or greater than upper-case value " + (-upperCaseValue));
 						}
 					}
 					// In order to speed up the checking, prepare some auxiliary data structure
@@ -1114,13 +1104,13 @@ public class PSTN {
 						// check that the node name is correct
 						if (!ctg.toString().equals(s.getName())) {
 							throw new WellDefinitionException(
-								"Edge " + e + " is upper case contingent edge but the name of node is not the name of contingent node: " +
-								"\n upper case label: " + ctg + "\n ctg node: " + s);
+									"Edge " + e + " is upper case contingent edge but the name of node is not the name of contingent node: " +
+											"\n upper case label: " + ctg + "\n ctg node: " + s);
 						}
 						final int lowerCaseValue = eInverted.getLabeledValue();
 						if (lowerCaseValue != Constants.INT_NULL && lowerCaseValue > -e.getLabeledValue()) {
 							throw new WellDefinitionException(
-								"Edge " + eInverted + " is a lower-case edge but its value equal or greater than upper-case value " + (-e.getLabeledValue()));
+									"Edge " + eInverted + " is a lower-case edge but its value equal or greater than upper-case value " + (-e.getLabeledValue()));
 						}
 						STNU.CHECK_ACTIVATION_UNIQUENESS(d, s, activationNode);
 						activationNode.put(s, d);
@@ -1129,13 +1119,13 @@ public class PSTN {
 					} else {// it is a lower case value
 						if (!ctg.toString().equals(d.getName())) {
 							throw new WellDefinitionException(
-								"Edge " + e + " is upper case contingent edge but the name of node is not the name of contingent node: " +
-								"\n upper case label: " + ctg + "\n ctg node: " + d);
+									"Edge " + e + " is upper case contingent edge but the name of node is not the name of contingent node: " +
+											"\n upper case label: " + ctg + "\n ctg node: " + d);
 						}
 						final int upperCaseValue = eInverted.getLabeledValue();
 						if (upperCaseValue != Constants.INT_NULL && e.getLabeledValue() > -upperCaseValue) {
 							throw new WellDefinitionException(
-								"Edge " + e + " is a lower-case edge but its value equal or greater than upper-case value " + (-upperCaseValue));
+									"Edge " + e + " is a lower-case edge but its value equal or greater than upper-case value " + (-upperCaseValue));
 						}
 						lowerContingentEdge.put(d, e);
 						STNU.CHECK_ACTIVATION_UNIQUENESS(s, d, activationNode);
@@ -1290,7 +1280,7 @@ public class PSTN {
 				outputName = COMPILE.matcher(fInput.getCanonicalPath()).replaceFirst("");
 			} catch (IOException e) {
 				System.err.println(
-					"It is not possible to save the result. Field fOutput is null and no the standard output file can be created: " + e.getMessage());
+						"It is not possible to save the result. Field fOutput is null and no the standard output file can be created: " + e.getMessage());
 				return;
 			}
 			if (!checkStatus.finished) {
@@ -1376,308 +1366,5 @@ public class PSTN {
 			}
 			e.setLabeledValue(ctg.getALetter(), approxE.getLabeledValue(), false);
 		}
-	}
-
-	public boolean manageParameters(String[] args) {
-		final CmdLineParser parser = new CmdLineParser(this);
-		try {
-			// parse the arguments.
-			parser.parseArgument(args);
-
-			if (fInput == null) {
-				try (final Scanner consoleScanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-					System.out.print("Insert PSTN file name (absolute file name): ");
-					final String fileName = consoleScanner.next();
-					fInput = new File(fileName);
-				}
-			}
-			if (!fInput.exists()) {
-				throw new CmdLineException(parser, "Input file does not exist.");
-			}
-
-			if (fOutput != null) {
-				if (fOutput.isDirectory()) {
-					throw new CmdLineException(parser, "Output file is a directory.");
-				}
-				if (!fOutput.getName().endsWith(".pstn")) {
-					if (!fOutput.renameTo(new File(fOutput.getAbsolutePath() + ".pstn"))) {
-						final String m = "File " + fOutput.getAbsolutePath() + " cannot be renamed.";
-//						STNU.LOG.severe(m);
-						throw new IllegalStateException(m);
-					}
-				}
-				if (fOutput.exists()) {
-					if (!fOutput.delete()) {
-						final String m = "File " + fOutput.getAbsolutePath() + " cannot be deleted.";
-//						STNU.LOG.severe(m);
-						throw new IllegalStateException(m);
-					}
-				}
-			}
-		} catch (CmdLineException e) {
-			// if there's a problem in the command line, you'll get this exception. this will report an error message.
-			System.err.println(e.getMessage());
-			System.err.println("java " + getClass().getName() + " [options...] arguments...");
-			// print the list of available options
-			parser.printUsage(System.err);
-			System.err.println();
-
-			// print option sample. This is useful some time
-			System.err.println(
-					"Example: java -jar CSTNU-*.jar " + getClass().getName() + " " + parser.printExample(OptionHandlerFilter.REQUIRED) + " file_name");
-			return false;
-		}
-		return true;
-	}
-
-	// modify how you want
-	public static void main(String[] args) throws WellDefinitionException {
-
-		PSTN pstn = new PSTN();
-		if (!pstn.manageParameters(args)) {
-			return;
-		}
-		File fOutput = pstn.getfOutput();
-		pstn.rangeFactor = 3.3;
-		System.out.println(pstn.getVersionAndCopyright());
-		System.out.println("Starting execution...");
-		if (pstn.versionReq) {
-			return;
-		}
-
-		final TNGraphMLReader<STNUEdge> graphMLReader = new TNGraphMLReader<>();
-		try {
-			pstn = new PSTN(graphMLReader.readGraph(pstn.fInput, STNUEdgeInt.class),  1000, 0.3, new MatLabEngine());
-			pstn.setfOutput(fOutput);
-		} catch (IOException | ParserConfigurationException | SAXException e) {
-			throw new RuntimeException(e);
-		}
-		if (Debug.ON) {
-			LOG.info("PSTN Graph loaded!\nNow, it is time to check it...");
-		}
-		Pattern pattern = Pattern.compile("^(\\d+_\\d+)_(\\d+)_(start|finish)$");
-
-		Map<String, Set<String>> allNodes = new HashMap<>();
-		for (LabeledNode labeledNode : pstn.g.getVertices()) {
-			String name = labeledNode.getName();
-			Matcher matcher = pattern.matcher(name);
-
-			if (matcher.matches()) {
-				String key = matcher.group(1);  // Extract i_j
-				String value = matcher.group(2); // Extract k
-
-				// Store in allNodes map
-				allNodes.computeIfAbsent(key, k -> new HashSet<>()).add(value);
-			}
-		}
-		final PSTN.PSTNCheckStatus status;
-
-		status = pstn.buildApproxSTNU();
-
-		if (status.finished) {
-			System.out.println("Checking finished!");
-			if (status.exitFlag >= 1) {
-				System.out.println("The given PSTN is convertible!");
-				STNU stnu = status.approximatingSTNU;
-				for (int i = 0; i < 100; i++) {
-					Map<LabeledNode, Integer> sample = new HashMap<>();
-					Random rng = new Random();
-					List<LabeledNode> less = new ArrayList<>();
-					List<LabeledNode> more = new ArrayList<>();
-					for (LabeledNode node : stnu.getG().getNodesOrdered()) {
-						double stdNormal = rng.nextGaussian();
-						LogNormalDistributionParameter logN = node.getLogNormalDistribution();
-						if (logN != null) {
-							double mean = logN.getLocation();
-							double scale = logN.getScale();
-							int value = (int) Math.exp(scale * stdNormal + mean);
-							sample.put(node, value);
-							if (value < stnu.getLowerCaseEdgesMap().get(node).getLabeledValue()) {
-								less.add(node);
-							}
-							if (value > -stnu.getUpperCaseEdgesMap().get(node).getLabeledValue()) {
-								more.add(node);
-							}
-						}
-					}
-					STNU cloneSTNU = new STNU(stnu);
-					cloneSTNU.dynamicControllabilityCheck(STNU.CheckAlgorithm.Morris2014Dispatchable);
-//				stnu.applyMinDispatchableESTNU();
-					STNURTE rte = new STNURTE(cloneSTNU.getG(), true);
-					final STNURTE.Strategy rtedStrategy = STNURTE.StrategyEnum.FIRST_NODE_EARLY_EXECUTION_STRATEGY;
-					final STNURTE.Strategy environmentStrategy = STNURTE.StrategyEnum.LATE_EXECUTION_STRATEGY;
-					STNURTE.RTEState rteState = rte.rte(rtedStrategy, environmentStrategy, sample);
-					while (!rteState.finished) {
-						Object2IntOpenHashMap<LabeledNode> schedule = rteState.schedule;
-						STNU stnu1 = process(schedule, stnu, allNodes);
-//						cloneSTNU = new STNU(stnu);
-						stnu1.dynamicControllabilityCheck(STNU.CheckAlgorithm.Morris2014Dispatchable);
-						rte = new STNURTE(stnu1.getG(), true);
-						rteState = rte.rte(rtedStrategy, environmentStrategy, sample);
-					}
-					try (BufferedWriter writer = new BufferedWriter(new FileWriter("schedule.txt"))) {
-						// Iterate through the entries of the schedule.txt map
-						for (Map.Entry<LabeledNode, Integer> entry : rteState.schedule.entrySet()) {
-							LabeledNode key = entry.getKey();
-							Integer value = entry.getValue();
-
-							// Write the key's name and value to the file, in the format key.getName(), value
-							writer.write(key.getName() + "," + value);
-							writer.newLine();  // Move to the next line after writing each pair
-						}
-						System.out.println("Schedule has been saved to " + "schedule.txt");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					System.out.println(rteState);
-				}
-			}else{
-					System.out.println("The given PSTN is NOT convertible!");
-				}
-				System.out.println("Probability mass: " + status.probabilityMass);
-				System.out.println("Details: " + status);
-				if (pstn.fOutput != null) {
-					System.out.println("Saving the result in file " + pstn.fOutput.getName());
-					final TNGraphMLWriter writer = new TNGraphMLWriter(null);
-					try {
-						writer.save(status.approximatingSTNU.getG(), pstn.fOutput);
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
-				}
-		} else {
-			System.out.println("Checking has not been finished!");
-			System.out.println("Details: " + status);
-		}
-	}
-	public static STNU process(Object2IntOpenHashMap<LabeledNode> schedule, STNU stnu, Map<String, Set<String>> allNodes) {
-		Set<String> startNodes = new HashSet<>();
-		Set<String> finishNodes = new HashSet<>();
-		Set<String> completeNodes = new HashSet<>();
-		Set<String> startOnlyNodes = new HashSet<>();
-		Pattern pattern = Pattern.compile("^(\\d+_\\d+)_(\\d+)_(start|finish)$");
-
-		// Process nodes in the schedule
-		for (LabeledNode node : schedule.keySet()) {
-			String name = node.getName();
-			Matcher matcher = pattern.matcher(name);
-
-			if (matcher.matches()) {
-				String key = matcher.group(1); // Extract i_j
-				String job = matcher.group(2); // Extract k
-				String type = matcher.group(3); // start or finish
-
-				if (type.equals("start")) {
-					startNodes.add(key + "_" + job);
-					if (job.equals("0") || job.equals("11")) {
-						finishNodes.add(key + "_" + job);
-					}
-				} else {
-					finishNodes.add(key + "_" + job);
-				}
-			}
-		}
-
-		// Identify complete nodes and start-only nodes
-		for (String node : startNodes) {
-			if (finishNodes.contains(node)) {
-				completeNodes.add(node); // Has both start and finish
-			} else {
-				startOnlyNodes.add(node); // Only has start
-			}
-		}
-
-		// Prepare the completed and ongoing node mappings
-		HashMap<String, Set<String>> completed = new HashMap<>();
-		HashMap<String, Set<String>> ongoing = new HashMap<>();
-		Pattern patternTwo = Pattern.compile("^(\\d+_\\d+)_(\\d+)$");
-
-		// Process complete nodes
-		for (String node : completeNodes) {
-			Matcher mymatcher = patternTwo.matcher(node);
-			if (mymatcher.matches()) {  // Ensure the match was successful
-				String key = mymatcher.group(1); // Extract i_j
-				String job = mymatcher.group(2); // Extract k
-				completed.computeIfAbsent(key, k -> new HashSet<>()).add(job);
-			}
-		}
-
-		// Process ongoing nodes (start-only nodes)
-		for (String node : startOnlyNodes) {
-			Matcher mymatcher = patternTwo.matcher(node);
-			if (mymatcher.matches()) {  // Ensure the match was successful
-				String key = mymatcher.group(1); // Extract i_j
-				String job = mymatcher.group(2); // Extract k
-				ongoing.computeIfAbsent(key, k -> new HashSet<>()).add(job);
-			}
-		}
-		int completedCount = 0;
-		HashMap<String, Set<String>> fullyCompleted = new HashMap<>();
-		for (String node : completed.keySet()) {
-			if (completed.get(node).size() == 12) {
-				completedCount++;
-			}
-		}
-		TNGraph stnu1 = new TNGraph("new graph", STNUEdgeInt.class);
-		for (LabeledNode node : stnu.getG().getVertices()) {
-			if (node.getName().equals("INITIAL_EVENT")) {
-				stnu1.addVertex(node);
-			}
-			else {
-				String name = node.getName().trim();  // Remove any leading/trailing spaces
-				System.out.println("Checking: '" + name + "'"); // Debugging output
-
-				String[] parts = name.split("_"); // Split by "_"
-
-				if (parts.length == 4 && (parts[3].equals("start") || parts[3].equals("finish"))) {
-					String id = parts[0] + "_" + parts[1];  // Extract "i_j"
-					String job = parts[2];                  // Extract "k"
-					String type = parts[3];                 // "start" or "finish"
-
-					System.out.println("Matched: ID=" + id + ", Job=" + job + ", Type=" + type);
-
-					if (!completed.containsKey(id) && !ongoing.containsKey(id)) {
-						stnu1.addVertex(node);
-					}
-				}
-			}
-		}
-		for (Edge edge : stnu.getG().getEdges()) {
-			if (edge.getConstraintType().equals(ConstraintType.derived)) continue;
-			if (stnu.getG().getSource(edge.getName()).getName().equals("INITIAL_EVENT")) {
-				String name = stnu.getG().getDest(edge.getName()).getName().trim();
-				String[] parts = name.split("_");
-				if (!completed.containsKey(parts[0] +"_"+parts[1]) && !ongoing.containsKey(parts[0] +"_"+parts[1])) {
-					stnu1.addEdge(edge, stnu.getG().getSource(edge.getName()), stnu.getG().getDest(edge.getName()));
-				}
-			}
-			else if (stnu.getG().getDest(edge.getName()).getName().equals("INITIAL_EVENT")) {
-				String name = stnu.getG().getSource(edge.getName()).getName().trim();
-				String[] parts = name.split("_");
-				if (!completed.containsKey(parts[0] +"_"+parts[1]) && !ongoing.containsKey(parts[0] +"_"+parts[1])) {
-					stnu1.addEdge(edge, stnu.getG().getSource(edge.getName()), stnu.getG().getDest(edge.getName()));
-
-				}
-			}
-			else {
-				String name1 = stnu.getG().getSource(edge.getName()).getName().trim();
-				String[] parts1 = name1.split("_");
-				String name2 = stnu.getG().getDest(edge.getName()).getName().trim();
-				String[] parts2 = name2.split("_");
-				if (!completed.containsKey(parts1[0] +"_"+parts1[1]) && !ongoing.containsKey(parts1[0] +"_"+parts1[1])) {
-					if (!completed.containsKey(parts2[0] +"_"+parts2[1]) && !ongoing.containsKey(parts2[0] +"_"+parts2[1])) {
-						stnu1.addEdge(edge, stnu.getG().getSource(edge.getName()), stnu.getG().getDest(edge.getName()));
-					}
-				}
-			}
-		}
-		STNU finalSTNU = new STNU(stnu1);
-
-		// Prepare the final result map
-		Object2ObjectMap<String, HashMap> result = new Object2ObjectArrayMap<>();
-		result.put("completeNodes", completed);
-		result.put("startOnlyNodes", ongoing);
-
-		return finalSTNU;
 	}
 }
